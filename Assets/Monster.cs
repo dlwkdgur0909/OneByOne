@@ -6,17 +6,19 @@ using UnityEngine.AI;
 public class Monster : MonoBehaviour
 {
     NavMeshAgent agent;
-    Vector3 door = new Vector3(0, 5, -75);
-    public float speed = 10f;
+    [SerializeField] Transform door;
 
-    void Start()
+
+    private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
     {
-        //transform.position = Vector3.MoveTowards(transform.position, door, speed);
-        agent.SetDestination(door);
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            agent.SetDestination(door.position);
+        }
     }
 }
