@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class MonsterSpawnner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject monsterPrefab;
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+        CO_MonsterSpawn();
+    }
+
+    IEnumerator CO_MonsterSpawn()
+    {
+        Instantiate(monsterPrefab);
+        yield return new WaitForSeconds(3f);
+        Destroy(monsterPrefab);
     }
 }
