@@ -7,6 +7,7 @@ TagManager:
   - Monster
   - Wall
   - Fence
+  - Door
   layers:
   - Default
   - TransparentFX
