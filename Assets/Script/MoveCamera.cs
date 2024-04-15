@@ -9,20 +9,20 @@ public class MoveCamera : MonoBehaviour
 {
     public static MoveCamera Instance;
     [SerializeField] private Camera mainCamera;
-    private Vector3 OriginalPos = new Vector3(0, 8f, -9f);
+    private Vector3 OriginalPos = new Vector3(0, 3f, -9f);
 
-    private Vector3 CenterPos = new Vector3(0, 8.5f, -3.3f);
+    private Vector3 CenterPos = new Vector3(0, 3.5f, -3.3f);
 
-    private Vector3 RightUpPos = new Vector3(3.9f, 10.18f, -2.3f);
+    private Vector3 RightUpPos = new Vector3(3.9f, 5.18f, -2.3f);
     private Vector3 RightUpRot = new Vector3(-6.4f, 35, 0);
 
-    private Vector3 LeftUpPos = new Vector3(-3.9f, 10.18f, -2.3f);
+    private Vector3 LeftUpPos = new Vector3(-3.9f, 5.18f, -2.3f);
     private Vector3 LeftUpRot = new Vector3(-6.4f, -35, 0);
 
-    private Vector3 RightDownPos = new Vector3(4f, 7.3f, -2.3f);
+    private Vector3 RightDownPos = new Vector3(4f, 2.3f, -2.3f);
     private Vector3 RightDownRot = new Vector3(5.8f, 34f, 0f);
 
-    private Vector3 LeftDownPos = new Vector3(-4f, 7.3f, 2.3f);
+    private Vector3 LeftDownPos = new Vector3(-4f, 2.3f, 2.3f);
     private Vector3 LeftDownRot = new Vector3(5.8f, -34f, 0f);
 
 

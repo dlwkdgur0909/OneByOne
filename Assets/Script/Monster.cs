@@ -11,9 +11,12 @@ public class Monster : MonoBehaviour
 
     NavMeshAgent agent;
     Transform door;
+    Transform mainDoor;
     public int Hp;
     public int DMG;
 
+    public bool isNomal;
+    public bool isSpecial;
 
     private void Awake()
     { 
@@ -23,11 +26,12 @@ public class Monster : MonoBehaviour
     void OnEnable()
     {
         door = GameManager.instance.door;
+        mainDoor = GameManager.instance.mainDoor;
     }
-
 
     void Update()
     {
-        agent.SetDestination(door.position);
+        if(isNomal) agent.SetDestination(door.position);
+        if (isSpecial) agent.SetDestination(mainDoor.position);
     }
 }
