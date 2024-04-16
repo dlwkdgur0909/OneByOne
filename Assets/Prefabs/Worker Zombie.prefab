@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96545a3d3c201e439a4577b9bee18a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toDoor: 1
+  toMainDoor: 0
   Hp: 0
   DMG: 0
-  isNomal: 1
-  isSpecial: 0

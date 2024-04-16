@@ -9,7 +9,7 @@ public class MonsterSpawnner : MonoBehaviour
     public GameObject[] monsterPrefab; // 몬스터 프리팹 배열
     public Vector3 fieldSize; // 전체 필드 크기
     public Vector3 spawnSize; // 스폰 영역 크기
-    public float noSpawnRegionSize = 100f;
+    public float noSpawnRegionSize = 150f;
 
     void Start()
     {
