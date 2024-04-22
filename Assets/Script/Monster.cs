@@ -8,8 +8,9 @@ using UnityEngine.Pool;
 
 public class Monster : MonoBehaviour
 {
+    public static Monster instance { get; private set; }
 
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     Transform door;
     Transform mainDoor;
 
@@ -20,11 +21,12 @@ public class Monster : MonoBehaviour
     public int DMG;
 
     private void Awake()
-    { 
+    {
+        if (instance == null) instance = this; else { Destroy(gameObject); }
         agent = GetComponent<NavMeshAgent>();
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         door = GameManager.instance.door;
         mainDoor = GameManager.instance.mainDoor;
@@ -32,7 +34,7 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        if(toDoor)agent.SetDestination(door.position);
+        if (toDoor) agent.SetDestination(door.position);
         if (toMainDoor) agent.SetDestination(mainDoor.position);
     }
 }

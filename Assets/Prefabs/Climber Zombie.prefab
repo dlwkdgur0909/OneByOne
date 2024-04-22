@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2604452815608437336}
   - component: {fileID: 9024088705611072633}
   - component: {fileID: 3798678713974414206}
-  - component: {fileID: 2265179779960141146}
+  - component: {fileID: 8422045253613176659}
   m_Layer: 0
   m_Name: Climber Zombie
   m_TagString: Untagged
@@ -159,7 +159,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2265179779960141146
+--- !u!114 &8422045253613176659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,10 +168,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1258969155032158307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f96545a3d3c201e439a4577b9bee18a3, type: 3}
+  m_Script: {fileID: 11500000, guid: eeb4449e14d0cab41979963a324e69bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 3798678713974414206}
   toDoor: 0
   toMainDoor: 1
   Hp: 0
   DMG: 0
+  climbSpeed: 5
+  climbableMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

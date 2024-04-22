@@ -5,7 +5,9 @@ public class MonsterSpawner : MonoBehaviour
 {
     public GameObject[] monsterPrefab;
     public GameObject rangeObj;
+    public GameObject obstacleObj;
     BoxCollider boxCollider;
+    public float spawnMonsterTime;
 
     void Awake()
     {
@@ -14,32 +16,37 @@ public class MonsterSpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnMonster());
+        StartCoroutine(SpawnMonster(spawnMonsterTime));
     }
 
-    IEnumerator SpawnMonster()
+    void SpawnRandomMonster()
+    {
+        int randomPrefab = Random.Range(0, monsterPrefab.Length);
+
+        Instantiate(monsterPrefab[randomPrefab], Return_RandomPosition(), Quaternion.identity);
+    }
+
+    IEnumerator SpawnMonster(float time)
     {
         while (true)
         {
-            int randomPrefab = Random.Range(0, monsterPrefab.Length);
-
-            Instantiate(monsterPrefab[randomPrefab], Return_RandomPosition(), Quaternion.identity);
-            yield return new WaitForSeconds(0.1f);
+            SpawnRandomMonster();
+            yield return new WaitForSeconds(time);
         }
     }
 
     Vector3 Return_RandomPosition()
     {
         Vector3 originPosition = rangeObj.transform.position;
-        // 콜라이더의 사이즈를 가져오는 bound.size 사용
+        Vector3 obstaclePosition = obstacleObj.transform.position;
         float range_X = boxCollider.bounds.size.x;
         float range_Z = boxCollider.bounds.size.z;
 
         range_X = Random.Range((range_X / 2) * -1, range_X / 2);
         range_Z = Random.Range((range_Z / 2) * -1, range_Z / 2);
-        Vector3 RandomPostion = new Vector3(range_X, 0f, range_Z);
+        Vector3 RandomPostion = new Vector3(range_X, -3f, range_Z);
 
-        Vector3 respawnPosition = originPosition + RandomPostion;
+        Vector3 respawnPosition = originPosition + RandomPostion - obstaclePosition;
         return respawnPosition;
     }
 }
