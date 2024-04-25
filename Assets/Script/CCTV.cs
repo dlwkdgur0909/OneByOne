@@ -10,10 +10,10 @@ public class CCTV : MonoBehaviour
 {
     [SerializeField] private Camera curCamera;
     [SerializeField] private MoveCamera.CameraState curState;
+    [SerializeField] private GameObject bullet;
     public float rotSpeed = 200f;
     float mx;
     float my;
-    //안녕하세요 장혁입니다. 저는 바보애ㅔ요.
     private Vector3 previousRotation;
 
     public void Update()
@@ -36,13 +36,16 @@ public class CCTV : MonoBehaviour
                 my = -90;
             }
             curCamera.transform.eulerAngles = new Vector3(-my, mx, 0);
+            //if (Input.GetMouseButtonDown(1))
+            //{
+            //    Instantiate(bullet, curCamera.transform.position, Quaternion.identity);
+            //}
         }
     }
 
     public void OnMouseDown()
     {
         previousRotation = curCamera.transform.eulerAngles;
-
         MoveCamera.Instance.CurrentState = curState;
     }
 

@@ -20,4 +20,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void Start()
+    {
+        Cursor.visible = false;
+    }
 }
