@@ -9,7 +9,7 @@ public class MoveCamera : MonoBehaviour
 {
     public static MoveCamera Instance;
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private GameObject[] cameras;
+    public GameObject[] cameras;
 
     #region CameraPos
     private Vector3 OriginalPos = new Vector3(0, 3f, -9f);
@@ -22,18 +22,15 @@ public class MoveCamera : MonoBehaviour
     private Vector3 LeftUpPos = new Vector3(-3.9f, 5.18f, -2.3f);
     private Vector3 LeftUpRot = new Vector3(-6.4f, -35, 0);
 
-    private Vector3 RightDownPos = new Vector3(4f, 2.3f, -2.3f);
-    private Vector3 RightDownRot = new Vector3(5.8f, 34f, 0f);
-
-    private Vector3 LeftDownPos = new Vector3(-4f, 2.3f, 2.3f);
-    private Vector3 LeftDownRot = new Vector3(5.8f, -34f, 0f);
+    private Vector3 TowerPos = new Vector3(4f, 2.3f, -2.3f);
+    private Vector3 TowerRot = new Vector3(5.8f, 34f, 0f);
     #endregion 
 
     public float Time = 0;
 
     public enum CameraState
     {
-        Original, Center, RightUp, LeftUp, RightDown, LeftDown
+        Original, Center, RightUp, LeftUp, Tower
     }
 
     public void Awake()
@@ -50,19 +47,22 @@ public class MoveCamera : MonoBehaviour
     [SerializeField] private CameraState currentState = CameraState.Original;
     public CameraState CurrentState { get { return currentState; } set { currentState = value; CameraMove(); } }
 
-    private void SwitchCamera(MoveCamera.CameraState cameraIndex)
+    IEnumerator CameraChange(CameraState cameraIndex)
     {
-        for (MoveCamera.CameraState i = MoveCamera.CameraState.Original; i <= MoveCamera.CameraState.RightDown; i++)
+        yield return new WaitForSeconds(1f);
+        for(CameraState i = CameraState.Original; i <= CameraState.Tower; ++i) 
         {
-            if (i == cameraIndex)
+            if(i == cameraIndex)
             {
-                cameras[(int)i].SetActive(true);
-            }
-            else
-            {
-                cameras[(int)i].SetActive(false);
+                mainCamera.transform.position = cameras[(int)i].transform.position;
+                mainCamera.transform.localRotation = cameras[(int)i].transform.localRotation;
             }
         }
+    }
+
+    private void RotateCamera()
+    {
+        //카메라 움직이는 기능 넣기
     }
 
     private void CameraMove()
@@ -70,42 +70,35 @@ public class MoveCamera : MonoBehaviour
         switch (currentState)
         {
             case CameraState.Original:
-                mainCamera.transform.DOMove(OriginalPos, Time).SetEase(Ease.OutExpo);
-                mainCamera.transform.DORotate(new Vector3(0, 0, 0), Time).SetEase(Ease.OutExpo);
-                SwitchCamera(CameraState.Original);
+                mainCamera.transform.DOMove(OriginalPos, 0.0001f).SetEase(Ease.OutExpo);
+                mainCamera.transform.DORotate(new Vector3(0, 0, 0), 0.0001f).SetEase(Ease.OutExpo);
+                StartCoroutine(CameraChange(CameraState.Original));
                 break;
             case CameraState.Center:
                 {
                     mainCamera.transform.DOMove(CenterPos, Time).SetEase(Ease.OutExpo);
-                    SwitchCamera(CameraState.Center);
+                    StartCoroutine(CameraChange(CameraState.Center));
                 };
                 break;
             case CameraState.RightUp:
                 {
                     mainCamera.transform.DOMove(RightUpPos, Time).SetEase(Ease.OutExpo);
                     mainCamera.transform.DORotate(RightUpRot, Time).SetEase(Ease.OutExpo);
-                    SwitchCamera(CameraState.RightUp);
+                    StartCoroutine(CameraChange(CameraState.RightUp));
                 };
                 break;
             case CameraState.LeftUp:
                 {
                     mainCamera.transform.DOMove(LeftUpPos, Time).SetEase(Ease.OutExpo);
                     mainCamera.transform.DORotate(LeftUpRot, Time).SetEase(Ease.OutExpo);
-                    SwitchCamera(CameraState.LeftUp);
+                    StartCoroutine(CameraChange(CameraState.LeftUp));
                 };
                 break;
-            case CameraState.RightDown:
+            case CameraState.Tower:
                 {
-                    mainCamera.transform.DOMove(RightDownPos, Time).SetEase(Ease.OutExpo);
-                    mainCamera.transform.DORotate(RightDownRot, Time).SetEase(Ease.OutExpo);
-                    SwitchCamera(CameraState.RightDown);
-                }
-                break;
-            case CameraState.LeftDown:
-                {
-                    mainCamera.transform.DOMove(LeftDownPos, Time).SetEase(Ease.OutExpo);
-                    mainCamera.transform.DORotate(LeftDownRot, Time).SetEase(Ease.OutExpo);
-                    SwitchCamera(currentState);
+                    mainCamera.transform.DOMove(TowerPos, Time).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DORotate(TowerRot, Time).SetEase(Ease.OutExpo);
+                    StartCoroutine(CameraChange(CameraState.Tower));
                 }
                 break;
         }

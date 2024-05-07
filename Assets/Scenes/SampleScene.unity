@@ -779,6 +779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curCamera: {fileID: 963194227}
   curState: 0
+  rotSpeed: 200
 --- !u!1 &512211914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,6 +1006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curCamera: {fileID: 1144976480}
   curState: 3
+  rotSpeed: 200
 --- !u!1 &563077148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,7 +1547,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: e015304858cf3e149b7073d30e9703ce, type: 2}
-  m_TargetDisplay: 3
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -1908,7 +1910,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 140b32cfbe742ac4eab33eea56546eaa, type: 2}
-  m_TargetDisplay: 2
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -2474,7 +2476,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: bd1fa8ea0287cc547b1e4cf77a957d0e, type: 2}
-  m_TargetDisplay: 3
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -2753,7 +2755,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 09e984ed11d27274c9e091298ee168a9, type: 2}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -3052,6 +3054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curCamera: {fileID: 756095843}
   curState: 1
+  rotSpeed: 200
 --- !u!1 &1662577115
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,6 +3281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curCamera: {fileID: 1538041910}
   curState: 2
+  rotSpeed: 200
 --- !u!1 &1760393888
 GameObject:
   m_ObjectHideFlags: 0
@@ -3777,6 +3781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curCamera: {fileID: 1370928861}
   curState: 4
+  rotSpeed: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
