@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
 
     public Transform door;
-    public Transform mainDoor;
 
     void Awake()
     {

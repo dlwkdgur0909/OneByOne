@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MonsterSpawner : MonoBehaviour
 {
+    // 할 것 : 스폰 영역 구하기
     public GameObject[] monsterPrefab;
     public GameObject rangeObj;
     public GameObject obstacleObj;
