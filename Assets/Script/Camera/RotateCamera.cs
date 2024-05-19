@@ -43,6 +43,12 @@ public class RotateCamera : MonoBehaviour
                         ChoiceCamera(CameraState.Tower); break;
                     }
             }
+
+            transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+            if (curCameraObj != null)
+            {
+                ChoiceCamera(Instance.currentState);
+            }
         }
     }
 

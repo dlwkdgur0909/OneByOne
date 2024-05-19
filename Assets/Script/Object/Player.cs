@@ -8,6 +8,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Move();
+    }
+
+    private void Move()
+    {
         if (MoveCamera.Instance.isOnCamera == false)
         {
             float h = Input.GetAxis("Horizontal");

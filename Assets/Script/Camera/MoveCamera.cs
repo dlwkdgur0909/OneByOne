@@ -50,7 +50,6 @@ public class MoveCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SaveCameraState(currentState);
-            mainCamera.transform.rotation = Quaternion.Euler(OriginalRot);
             CurrentState = CameraState.Original;
         }
     }
@@ -58,7 +57,7 @@ public class MoveCamera : MonoBehaviour
     //cameraIndex에 따라 메인 카메라가 선택된 cameraIndex로 이동
     IEnumerator CameraChange(CameraState cameraIndex)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         for (CameraState i = CameraState.Original; i <= CameraState.Tower; ++i)
         {
             if (i == cameraIndex)
@@ -76,9 +75,8 @@ public class MoveCamera : MonoBehaviour
     }
 
     //스페이스바를 눌렀을 때 선택된 cameraIndex의 회전값을 메인카메라에게 저장함
-    public IEnumerator SaveCameraState(CameraState cameraIndex)
+    public void SaveCameraState(CameraState cameraIndex)
     {
-        yield return new WaitForSeconds(1.1f);
         for (CameraState i = CameraState.Original; i <= CameraState.Tower; ++i)
         {
             if (i == cameraIndex)
@@ -100,37 +98,37 @@ public class MoveCamera : MonoBehaviour
                 mainCamera.transform.DOMove(playerPos.transform.position, 0.0001f).SetEase(Ease.OutExpo);
                 mainCamera.transform.DORotate(new Vector3(0, 0, 0), 0.0001f).SetEase(Ease.OutExpo);
                 StartCoroutine(CameraChange(CameraState.Original));
-                StartCoroutine(SaveCameraState(CameraState.Original));
+                SaveCameraState(CameraState.Original);
                 break;
             case CameraState.Center:
                 {
+                    mainCamera.transform.DOMove(CenterPos, 0.5f).SetEase(Ease.OutExpo);
                     StartCoroutine(CameraChange(CameraState.Center));
-                    mainCamera.transform.DOMove(CenterPos, 1).SetEase(Ease.OutExpo);
-                    StartCoroutine(SaveCameraState(CameraState.Center));
+                    SaveCameraState(CameraState.Center);
                 };
                 break;
             case CameraState.Right:
                 {
-                    mainCamera.transform.DOMove(RightPos, 1).SetEase(Ease.OutExpo);
-                    mainCamera.transform.DORotate(RightRot, 1).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DOMove(RightPos, 0.5f).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DORotate(RightRot, 0.5f).SetEase(Ease.OutExpo);
                     StartCoroutine(CameraChange(CameraState.Right));
-                    StartCoroutine(SaveCameraState(CameraState.Right));
+                    SaveCameraState(CameraState.Right);
                 };
                 break;
             case CameraState.Left:
                 {
-                    mainCamera.transform.DOMove(LeftPos, 1).SetEase(Ease.OutExpo);
-                    mainCamera.transform.DORotate(LeftRot, 1).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DOMove(LeftPos, 0.5f).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DORotate(LeftRot, 0.5f).SetEase(Ease.OutExpo);
                     StartCoroutine(CameraChange(CameraState.Left));
-                    StartCoroutine(SaveCameraState(CameraState.Left));
+                    SaveCameraState(CameraState.Left);
                 };
                 break;
             case CameraState.Tower:
                 {
-                    mainCamera.transform.DOMove(TowerPos, 1).SetEase(Ease.OutExpo);
-                    mainCamera.transform.DORotate(TowerRot, 1).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DOMove(TowerPos, 0.5f).SetEase(Ease.OutExpo);
+                    mainCamera.transform.DORotate(TowerRot, 0.5f).SetEase(Ease.OutExpo);
                     StartCoroutine(CameraChange(CameraState.Tower));
-                    StartCoroutine(SaveCameraState(CameraState.Tower));
+                    SaveCameraState(CameraState.Tower);
                 }
                 break;
         }

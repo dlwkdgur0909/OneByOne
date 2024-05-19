@@ -15,7 +15,6 @@ public class CCTV : MonoBehaviour
     {
         previousRotation = curCamera.transform.eulerAngles;
         MoveCamera.Instance.CurrentState = curState;
-        
     }
 
     public void AfterStateChange()
