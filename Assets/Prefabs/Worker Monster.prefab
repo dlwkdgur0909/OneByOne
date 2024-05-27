@@ -150,12 +150,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3487258722809452216}
-  door: {fileID: 0}
-  mainDoor: {fileID: 0}
-  toDoor: 1
-  toMainDoor: 0
   Hp: 10
   DMG: 0
+  isDoor: 0
+  isFrontDoor: 1
 --- !u!195 &3487258722809452216
 NavMeshAgent:
   m_ObjectHideFlags: 0

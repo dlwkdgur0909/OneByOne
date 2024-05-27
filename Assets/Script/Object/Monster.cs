@@ -9,10 +9,14 @@ using UnityEngine.Pool;
 public class Monster : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform door;
+    private Transform door;
+    private Transform frontDoor;
 
     public int Hp;
     public int DMG;
+
+    public bool isDoor;
+    public bool isFrontDoor;
 
     private void Awake()
     {
@@ -22,10 +26,12 @@ public class Monster : MonoBehaviour
     public void OnEnable()
     {
         door = GameManager.instance.door;
+        frontDoor = GameManager.instance.frontDoor;
     }
 
     void Update()
     {
-        agent.SetDestination(door.position);
+        if (isDoor) agent.SetDestination(door.position);
+        if (isFrontDoor) agent.SetDestination(frontDoor.position);
     }
 }

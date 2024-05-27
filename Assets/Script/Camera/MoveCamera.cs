@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using static mainCamera;
 
 public class MoveCamera : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class MoveCamera : MonoBehaviour
 
     #region CameraPos
     public GameObject playerPos;
-    private Vector3 OriginalRot = new Vector3(0f, 0f, 0f);
 
     private Vector3 CenterPos = new Vector3(0, 10.5f, -3.3f);
 
@@ -52,6 +52,9 @@ public class MoveCamera : MonoBehaviour
             SaveCameraState(currentState);
             CurrentState = CameraState.Original;
         }
+
+        if(isOnCamera == true) instance.gun.SetActive(false);
+        else instance.gun.SetActive(true);
     }
 
     //cameraIndex에 따라 메인 카메라가 선택된 cameraIndex로 이동
@@ -66,10 +69,14 @@ public class MoveCamera : MonoBehaviour
                 {
                     mainCamera.transform.position = cameras[(int)i].transform.position;
                     mainCamera.transform.localRotation = cameras[(int)i].transform.localRotation;
+                    isOnCamera = false;
                 }
-                mainCamera.transform.position = cameras[(int)i].transform.position;
-                mainCamera.transform.localRotation = cameras[(int)i].transform.localRotation;
-                isOnCamera = true;
+                else
+                {
+                    mainCamera.transform.position = cameras[(int)i].transform.position;
+                    mainCamera.transform.localRotation = cameras[(int)i].transform.localRotation;
+                    isOnCamera = true;
+                }
             }
         }
     }
@@ -81,8 +88,7 @@ public class MoveCamera : MonoBehaviour
         {
             if (i == cameraIndex)
             {
-                if (i == CameraState.Original) isOnCamera = false;
-                else cameras[(int)i].transform.rotation = mainCamera.transform.rotation;
+                cameras[(int)i].transform.rotation = mainCamera.transform.rotation;
             }
         }
     }

@@ -4,11 +4,13 @@ using static MoveCamera;
 
 public class mainCamera : MonoBehaviour
 {
+    public static mainCamera instance;
+
     #region BulletShooter
     [Header("Bullet Shooter")]
     public GameObject gun;
     public GameObject gunPos;
-    private Vector3 gunRot = new Vector3 (-90f, 90f, 0f);
+    private Vector3 gunRot = new Vector3(-90f, 90f, 0f);
     public GameObject bulletPrefab;
     public GameObject cannonBallPrefab;
     public Transform bulletPos;
@@ -26,23 +28,24 @@ public class mainCamera : MonoBehaviour
     public new Camera camera;
     RaycastHit hit;
 
-    public bool isOnCamera = false;
-
     void Awake()
     {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
         rotateToMouse = GetComponent<RotateCamera>();
     }
 
     void Update()
     {
         Ray();
-        if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
         UpdateRotate();
+        if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
+
         if (isHaveGun == true)
         {
             gun.transform.position = gunPos.transform.position;
             gun.transform.rotation = gunPos.transform.rotation;
-            if(Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 if (Instance.currentState == CameraState.Tower) Cannon();
                 else Fire();
@@ -77,19 +80,29 @@ public class mainCamera : MonoBehaviour
         }
     }
 
-    private void Ray()
+    public void Ray()
     {
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out hit))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Transform objHit = hit.transform;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            if (objHit.name == "Gun")
+            if (Physics.Raycast(ray, out hit))
             {
-                isHaveGun = true;
-                gun.transform.DOMove(gunPos.transform.position, 0.5f).SetEase(Ease.OutExpo);
-                gun.transform.DORotate(gunRot, 0.5f).SetEase(Ease.OutExpo);
+                Transform objHit = hit.transform;
+
+                //카메라가 바라보는 오브젝트가 Gun이고 E키를 눌렀을 때
+                if (objHit.name == "Gun")
+                {
+                    isHaveGun = true;
+                    gun.transform.DOMove(gunPos.transform.position, 0.5f).SetEase(Ease.OutExpo);
+                    gun.transform.DORotate(gunRot, 0.5f).SetEase(Ease.OutExpo);
+                }
+
+                //문이 닫혀있을 때 E키를 누르면 문이 닫힘 
+                if (objHit.name == "Door")
+                {
+                    objHit.GetComponent<Door>().ChangeIsOpen();
+                }
             }
         }
     }
