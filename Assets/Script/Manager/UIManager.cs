@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
 
     public void InGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("InGame");
     }
 
     public void On_HowToPlay()
@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     {
         credit.SetActive(true);
     }
+
     public void Off_Credit()
     {
         credit.SetActive(false);

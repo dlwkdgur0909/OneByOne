@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using DG.Tweening;
 
@@ -21,6 +18,4 @@ public class Door : MonoBehaviour
         if(isOpen) door.transform.DORotate(openDoor, 0.5f).SetEase(Ease.Linear);
         else door.transform.DORotate(closeDoor, 0.5f).SetEase(Ease.Linear);
     }
-
-
 }

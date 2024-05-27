@@ -13,7 +13,7 @@ public class mainCamera : MonoBehaviour
     private Vector3 gunRot = new Vector3(-90f, 90f, 0f);
     public GameObject bulletPrefab;
     public GameObject cannonBallPrefab;
-    public Transform bulletPos;
+    public Transform bulletPos; // 2,-0.9, 7.07 / 0, -1.2, 0.3
     public float bulletSpeed;
     public float cannonBallSpeed;
     private float cannonCoolDown = 2f; //cannon의 쿨 타임
@@ -53,7 +53,7 @@ public class mainCamera : MonoBehaviour
         }
     }
 
-    void UpdateRotate()
+    private void UpdateRotate()
     {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
@@ -98,7 +98,6 @@ public class mainCamera : MonoBehaviour
                     gun.transform.DORotate(gunRot, 0.5f).SetEase(Ease.OutExpo);
                 }
 
-                //문이 닫혀있을 때 E키를 누르면 문이 닫힘 
                 if (objHit.name == "Door")
                 {
                     objHit.GetComponent<Door>().ChangeIsOpen();
