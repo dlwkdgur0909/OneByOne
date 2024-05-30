@@ -21,7 +21,8 @@ public class Bullet : MonoBehaviour
 
             if (monster != null)
             {
-                monster.Hp -= DMG;
+                monster.hp -= DMG;
+                
                 Destroy(collision.gameObject);
             }
         }

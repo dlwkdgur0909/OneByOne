@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     public float speed = 10f;
 
-    void Update()
+    private void Update()
     {
         Move();
     }

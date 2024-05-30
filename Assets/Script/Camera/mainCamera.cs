@@ -5,6 +5,8 @@ using static MoveCamera;
 public class mainCamera : MonoBehaviour
 {
     public static mainCamera instance;
+    public GameObject InteractionKey;
+    public bool isShop = false;
 
     #region BulletShooter
     [Header("Bullet Shooter")]
@@ -35,20 +37,23 @@ public class mainCamera : MonoBehaviour
         rotateToMouse = GetComponent<RotateCamera>();
     }
 
-    void Update()
+    public void Update()
     {
-        Ray();
-        UpdateRotate();
-        if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
-
-        if (isHaveGun == true)
+        if (isShop == false)
         {
-            gun.transform.position = gunPos.transform.position;
-            gun.transform.rotation = gunPos.transform.rotation;
-            if (Input.GetMouseButtonDown(1))
+            Ray();
+            UpdateRotate();
+            if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
+
+            if (isHaveGun == true)
             {
-                if (Instance.currentState == CameraState.Tower) Cannon();
-                else Fire();
+                gun.transform.position = gunPos.transform.position;
+                gun.transform.rotation = gunPos.transform.rotation;
+                if (Input.GetMouseButtonDown(1))
+                {
+                    if (Instance.currentState == CameraState.Tower) Cannon();
+                    else Fire();
+                }
             }
         }
     }
@@ -82,15 +87,20 @@ public class mainCamera : MonoBehaviour
 
     public void Ray()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+        // 레이캐스트가 뭔가를 감지했는지 여부를 나타내는 변수
+        bool raycastHit = Physics.Raycast(ray, out hit);
+
+        // 레이캐스트가 뭔가를 감지했을 때만 InteractionKey를 활성화
+        InteractionKey.SetActive(raycastHit && (hit.transform.name == "Gun" || hit.transform.name == "Door" || hit.transform.name == "Shop"));
+
+        if (raycastHit)
         {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Transform objHit = hit.transform;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Transform objHit = hit.transform;
-
-                //카메라가 바라보는 오브젝트가 Gun이고 E키를 눌렀을 때
                 if (objHit.name == "Gun")
                 {
                     isHaveGun = true;
@@ -101,6 +111,12 @@ public class mainCamera : MonoBehaviour
                 if (objHit.name == "Door")
                 {
                     objHit.GetComponent<Door>().ChangeIsOpen();
+                }
+
+                if (objHit.name == "Shop")
+                {
+                    objHit.GetComponent<Shop>().OpenShop();
+                    isShop = true;
                 }
             }
         }

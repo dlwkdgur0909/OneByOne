@@ -7,8 +7,9 @@ public class Monster : MonoBehaviour
     private Transform door;
     private Transform frontDoor;
 
-    public int Hp;
+    public int hp;
     public int DMG;
+    public int gold;
 
     public bool isDoor;
     public bool isFrontDoor;
