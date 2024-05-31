@@ -20,7 +20,7 @@ public class mainCamera : MonoBehaviour
     public float cannonBallSpeed;
     private float cannonCoolDown = 2f; //cannon의 쿨 타임
     private float cannonCoolTime = 0f; //cannon의 현재 쿨타임 시간
-    private bool isHaveGun = false;
+    public bool isHaveGun = false;
     #endregion 
 
     [Header("Main Camera")]
@@ -35,6 +35,7 @@ public class mainCamera : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
         rotateToMouse = GetComponent<RotateCamera>();
+        gun.GetComponent<Rigidbody>().useGravity = false;
     }
 
     public void Update()
@@ -47,6 +48,7 @@ public class mainCamera : MonoBehaviour
 
             if (isHaveGun == true)
             {
+                gun.GetComponent<Rigidbody>().useGravity = false;
                 gun.transform.position = gunPos.transform.position;
                 gun.transform.rotation = gunPos.transform.rotation;
                 if (Input.GetMouseButtonDown(1))
@@ -55,6 +57,11 @@ public class mainCamera : MonoBehaviour
                     else Fire();
                 }
             }
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            isHaveGun = false;
+            gun.GetComponent<Rigidbody>().useGravity = true;
         }
     }
 
@@ -104,8 +111,8 @@ public class mainCamera : MonoBehaviour
                 if (objHit.name == "Gun")
                 {
                     isHaveGun = true;
-                    gun.transform.DOMove(gunPos.transform.position, 0.5f).SetEase(Ease.OutExpo);
-                    gun.transform.DORotate(gunRot, 0.5f).SetEase(Ease.OutExpo);
+                    gun.transform.DOMove(gunPos.transform.position, 0.2f).SetEase(Ease.OutExpo);
+                    gun.transform.DORotate(gunRot, 0.2f).SetEase(Ease.OutExpo);
                 }
 
                 if (objHit.name == "Door")
