@@ -6,7 +6,15 @@ using static mainCamera;
 public class Shop : MonoBehaviour
 {
     public GameObject shop;
-    public GameObject[] streetLight;
+    public GameObject[] streetLight = new GameObject[3];
+
+    private void Start()
+    {
+        for (int i = 0; i < streetLight.Length; i++)
+        {
+            streetLight[i].SetActive(false);
+        }
+    }
 
     public void OpenShop()
     {
@@ -20,12 +28,14 @@ public class Shop : MonoBehaviour
         shop.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        instance.isShop = false;    
+        instance.isShop = false;
     }
 
-    public void StreetLight()
+    public void BuyStreetLight()
     {
-        //구매할 때마다 순서대로 가로등 생성
-        //streetLight[].SetActive(true);
+        for (int i = 0; i < streetLight.Length; i++)
+        {
+            streetLight[i].SetActive(true);
+        }
     }
 }
