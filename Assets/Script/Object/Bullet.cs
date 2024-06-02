@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
@@ -11,20 +8,5 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Monster"))
-        {
-            Monster monster = collision.gameObject.GetComponent<Monster>();
-
-            if (monster != null)
-            {
-                monster.hp -= DMG;
-                
-                Destroy(collision.gameObject);
-            }
-        }
     }
 }

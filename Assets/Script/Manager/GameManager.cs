@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
 
-    public int coin;
-
     public Transform door;
     public Transform frontDoor;
 

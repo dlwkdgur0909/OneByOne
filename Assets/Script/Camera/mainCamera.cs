@@ -1,11 +1,13 @@
 using UnityEngine;
 using DG.Tweening;
 using static MoveCamera;
+using System.Collections;
 
 public class mainCamera : MonoBehaviour
 {
     public static mainCamera instance;
     public GameObject InteractionKey;
+    public float throwForce = 10f;
     public bool isShop = false;
 
     #region BulletShooter
@@ -13,11 +15,19 @@ public class mainCamera : MonoBehaviour
     public GameObject gun;
     public GameObject gunPos;
     private Vector3 gunRot = new Vector3(-90f, 90f, 0f);
+
+    public int maxAmmo = 15; //최대 탄약 수
+    public float reloadTime = 1f; //재장전 시간
+    private int curAmmo;
+    private bool isReloading = false;
+
     public GameObject bulletPrefab;
     public GameObject cannonBallPrefab;
     public Transform bulletPos; // 2,-0.9, 7.07 / 0, -1.2, 0.3
+
     public float bulletSpeed;
     public float cannonBallSpeed;
+
     private float cannonCoolDown = 2f; //cannon의 쿨 타임
     private float cannonCoolTime = 0f; //cannon의 현재 쿨타임 시간
     public bool isHaveGun = false;
@@ -35,7 +45,11 @@ public class mainCamera : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
         rotateToMouse = GetComponent<RotateCamera>();
-        gun.GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    private void Start()
+    {
+        curAmmo = maxAmmo;
     }
 
     public void Update()
@@ -48,20 +62,25 @@ public class mainCamera : MonoBehaviour
 
             if (isHaveGun == true)
             {
-                gun.GetComponent<Rigidbody>().useGravity = false;
                 gun.transform.position = gunPos.transform.position;
                 gun.transform.rotation = gunPos.transform.rotation;
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    StartCoroutine(ReLoad());
+                }
                 if (Input.GetMouseButtonDown(1))
                 {
                     if (Instance.currentState == CameraState.Tower) Cannon();
-                    else Fire();
+                    else if (curAmmo > 0) { --curAmmo; Fire(); }
+                    else return;
                 }
             }
         }
+        //총 버리기
         if (Input.GetKeyDown(KeyCode.G))
         {
             isHaveGun = false;
-            gun.GetComponent<Rigidbody>().useGravity = true;
+            Throw();
         }
     }
 
@@ -70,6 +89,20 @@ public class mainCamera : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         rotateToMouse.CameraRotate(mouseX, mouseY);
+    }
+
+    private void Throw()
+    {
+        gun.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
+    }
+
+    IEnumerator ReLoad()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+
+        curAmmo = maxAmmo;
+        isReloading = false;
     }
 
     private void Fire()

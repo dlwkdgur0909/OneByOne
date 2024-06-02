@@ -110,9 +110,9 @@ NavMeshProjectSettings:
   - serializedVersion: 3
     agentTypeID: 287145453
     agentRadius: 1.5
-    agentHeight: 4
+    agentHeight: 3
     agentSlope: 60
-    agentClimb: 3
+    agentClimb: 2
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -128,4 +128,4 @@ NavMeshProjectSettings:
   m_SettingNames:
   - Worker
   - Student
-  - Climber
+  - Sportman

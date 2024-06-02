@@ -8,12 +8,8 @@ public class CCTV : MonoBehaviour
 
     public void OnMouseDown()
     {
-        //총을 들고있으면 카메라에 입장하지 못함
-        if(mainCamera.instance.isHaveGun == false)
-        {
-            previousRotation = curCamera.transform.eulerAngles;
-            MoveCamera.Instance.CurrentState = curState;
-        }
+        previousRotation = curCamera.transform.eulerAngles;
+        MoveCamera.Instance.CurrentState = curState;
     }
 
     public void AfterStateChange()
