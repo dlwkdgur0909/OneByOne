@@ -37,20 +37,20 @@ public class RotateCamera : MonoBehaviour
                     }
                 case CameraState.Center:
                     {
-                        liminMaxX = 270;
-                        liminMinX = 90;
+                        liminMaxX = 280;
+                        liminMinX = 80;
                         ChoiceCamera(CameraState.Center); break;
                     }
                 case CameraState.Right:
                     {
-                        liminMaxX = 180;
-                        liminMinX = 0;
+                        liminMaxX = 190;
+                        liminMinX = -10;
                         ChoiceCamera(CameraState.Right); break;
                     }
                 case CameraState.Left:
                     {
-                        liminMaxX = 0;
-                        liminMinX = -180;
+                        liminMaxX = 10;
+                        liminMinX = -190;
                         ChoiceCamera(CameraState.Left); break;
                     }
                 case CameraState.Tower:

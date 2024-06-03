@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3487258722809452216}
-  hp: 20
+  hp: 10
   DMG: 1
   goldValue: 2
   isDoor: 0
@@ -163,9 +163,9 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4912919028147816473}
   m_Enabled: 1
-  m_AgentTypeID: 287145453
+  m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 60
+  m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 200

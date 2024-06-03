@@ -38,8 +38,6 @@ public class MonsterSpawner : MonoBehaviour
 
     Vector3 Return_RandomPosition()
     {
-        Vector3 originPosition = rangeObj.transform.position;
-        Vector3 obstaclePosition = obstacleObj.transform.position;
         float range_X = boxCollider.bounds.size.x;
         float range_Z = boxCollider.bounds.size.z;
 
@@ -47,7 +45,6 @@ public class MonsterSpawner : MonoBehaviour
         range_Z = Random.Range((range_Z / 2) * -1, range_Z / 2);
         Vector3 RandomPostion = new Vector3(range_X, -3f, range_Z);
 
-        Vector3 respawnPosition = originPosition + RandomPostion - obstaclePosition;
-        return respawnPosition;
+        return RandomPostion;
     }
 }

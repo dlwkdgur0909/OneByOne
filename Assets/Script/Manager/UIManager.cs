@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 
 public class UIManager : MonoBehaviour
 {
@@ -10,7 +10,8 @@ public class UIManager : MonoBehaviour
     public GameObject setting;
     public GameObject credit;
     public GameObject exit;
-    
+
+    #region Button
     public void Titie()
     {
         SceneManager.LoadScene(0);
@@ -65,4 +66,5 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
     }
+    #endregion
 }

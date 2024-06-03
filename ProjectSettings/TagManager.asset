@@ -9,6 +9,7 @@ TagManager:
   - Fence
   - Door
   - Bullet
+  - Obstacle
   layers:
   - Default
   - TransparentFX

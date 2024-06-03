@@ -152,7 +152,7 @@ MonoBehaviour:
   agent: {fileID: 3487258722809452216}
   hp: 5
   DMG: 5
-  goldValue: 2
+  goldValue: 3
   isDoor: 0
   isFrontDoor: 1
 --- !u!195 &3487258722809452216

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,6 +7,7 @@ public class Monster : MonoBehaviour
     public NavMeshAgent agent;
     private Transform door;
     private Transform frontDoor;
+    private Vector3 playerPos;
 
     public int hp;
     public int DMG; //대문에 넣을 데미지
@@ -13,6 +15,7 @@ public class Monster : MonoBehaviour
 
     public bool isDoor;
     public bool isFrontDoor;
+    public bool isPlayer; 
 
     private void Awake()
     {
@@ -23,12 +26,15 @@ public class Monster : MonoBehaviour
     {
         door = GameManager.instance.door;
         frontDoor = GameManager.instance.frontDoor;
+        playerPos = MoveCamera.Instance.transform.position;
     }
 
     void Update()
     {
         if (isDoor) agent.SetDestination(door.position);
         if (isFrontDoor) agent.SetDestination(frontDoor.position);
+        if(isPlayer) agent.SetDestination(playerPos);
+
         //Die
         if (hp < 0)
         {

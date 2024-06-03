@@ -1,7 +1,9 @@
 using UnityEngine;
-using DG.Tweening;
-using static MoveCamera;
 using System.Collections;
+using DG.Tweening;
+using TMPro;
+using UnityEngine.UI;
+using static MoveCamera;
 
 public class mainCamera : MonoBehaviour
 {
@@ -10,8 +12,13 @@ public class mainCamera : MonoBehaviour
     public float throwForce = 10f;
     public bool isShop = false;
 
+    #region UI
+    public TMP_Text curAmmoText;
+
+    public Image coolTimeImage;
+    #endregion
+
     #region BulletShooter
-    [Header("Bullet Shooter")]
     public GameObject gun;
     public GameObject gunPos;
     private Vector3 gunRot = new Vector3(-90f, 90f, 0f);
@@ -23,7 +30,9 @@ public class mainCamera : MonoBehaviour
 
     public GameObject bulletPrefab;
     public GameObject cannonBallPrefab;
-    public Transform bulletPos; // 2,-0.9, 7.07 / 0, -1.2, 0.3
+    public Transform curBulletPos;
+    public Transform bulletPos;
+    public Transform CCTVbulletPos;
 
     public float bulletSpeed;
     public float cannonBallSpeed;
@@ -49,6 +58,7 @@ public class mainCamera : MonoBehaviour
 
     private void Start()
     {
+        coolTimeImage.fillAmount = 0;
         curAmmo = maxAmmo;
     }
 
@@ -56,31 +66,40 @@ public class mainCamera : MonoBehaviour
     {
         if (isShop == false)
         {
+            if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
             Ray();
             UpdateRotate();
-            if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
-
-            if (isHaveGun == true)
-            {
-                gun.transform.position = gunPos.transform.position;
-                gun.transform.rotation = gunPos.transform.rotation;
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    StartCoroutine(ReLoad());
-                }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    if (Instance.currentState == CameraState.Tower) Cannon();
-                    else if (curAmmo > 0) { --curAmmo; Fire(); }
-                    else return;
-                }
-            }
+            HaveGun();
         }
-        //총 버리기
-        if (Input.GetKeyDown(KeyCode.G))
+    }
+
+    public void HaveGun()
+    {
+        if (isHaveGun == true)
         {
-            isHaveGun = false;
-            Throw();
+            Ammo();
+            gun.transform.position = gunPos.transform.position;
+            gun.transform.rotation = gunPos.transform.rotation;
+            //재장전
+            if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo)
+            {
+                StartCoroutine(ReLoad());
+            }
+            //총 발사
+            if (Input.GetMouseButtonDown(1) && isReloading == false)
+            {
+                if (Instance.currentState == CameraState.Tower) Cannon();
+                else if (curAmmo > 0) { --curAmmo; Fire(); }
+                else return;
+            }
+            if (MoveCamera.Instance.isOnCamera == true) curBulletPos.transform.position = CCTVbulletPos.transform.position;
+            else curBulletPos.transform.position = bulletPos.transform.position;
+            //총 버리기
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                isHaveGun = false;
+                Throw();
+            }
         }
     }
 
@@ -99,15 +118,21 @@ public class mainCamera : MonoBehaviour
     IEnumerator ReLoad()
     {
         isReloading = true;
-        yield return new WaitForSeconds(reloadTime);
-
+        float reloadingTime = reloadTime;
+        while (reloadingTime > 0)
+        {
+            reloadingTime -= Time.deltaTime;
+            coolTimeImage.fillAmount = 1 - (reloadingTime / reloadTime);
+            yield return null;
+        }
         curAmmo = maxAmmo;
         isReloading = false;
+        coolTimeImage.fillAmount = 0; // 쿨타임 이미지를 초기화
     }
 
     private void Fire()
     {
-        GameObject bullet = Instantiate(bulletPrefab, bulletPos.position, bulletPos.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, curBulletPos.position, curBulletPos.rotation);
 
         bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed * Time.deltaTime;
 
@@ -118,7 +143,7 @@ public class mainCamera : MonoBehaviour
     {
         if (cannonCoolTime <= 0)
         {
-            GameObject cannonBall = Instantiate(cannonBallPrefab, bulletPos.position, bulletPos.rotation);
+            GameObject cannonBall = Instantiate(cannonBallPrefab, curBulletPos.position, curBulletPos.rotation);
             cannonBall.GetComponent<Rigidbody>().velocity = cannonBall.transform.forward * cannonBallSpeed * Time.deltaTime;
             cannonCoolTime = cannonCoolDown;
             Destroy(cannonBall, 3f);
@@ -160,5 +185,10 @@ public class mainCamera : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void Ammo()
+    {
+        curAmmoText.text = curAmmo.ToString() + "/15";
     }
 }
