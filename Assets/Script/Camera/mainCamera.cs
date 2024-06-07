@@ -37,7 +37,7 @@ public class mainCamera : MonoBehaviour
     public float bulletSpeed;
     public float cannonBallSpeed;
 
-    private float cannonCoolDown = 2f; //cannon의 쿨 타임
+    private float cannonCoolDown = 5f; //cannon의 쿨 타임
     private float cannonCoolTime = 0f; //cannon의 현재 쿨타임 시간
     public bool isHaveGun = false;
     #endregion 
@@ -81,15 +81,21 @@ public class mainCamera : MonoBehaviour
             gun.transform.position = gunPos.transform.position;
             gun.transform.rotation = gunPos.transform.rotation;
             //재장전
-            if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo)
+            if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo && Instance.currentState != CameraState.Tower)
             {
                 StartCoroutine(ReLoad());
+                AudioManager.instance.reload.Play();
             }
             //총 발사
             if (Input.GetMouseButtonDown(1) && isReloading == false)
             {
-                if (Instance.currentState == CameraState.Tower) Cannon();
-                else if (curAmmo > 0) { --curAmmo; Fire(); }
+                if (Instance.currentState == CameraState.Tower) StartCoroutine(C_Cannon());
+                else if (curAmmo > 0)
+                {
+                    --curAmmo;
+                    Fire();
+                    AudioManager.instance.shoot.Play();
+                }
                 else return;
             }
             if (MoveCamera.Instance.isOnCamera == true) curBulletPos.transform.position = CCTVbulletPos.transform.position;
@@ -139,14 +145,17 @@ public class mainCamera : MonoBehaviour
         Destroy(bullet, 2f);
     }
 
-    private void Cannon()
+    IEnumerator C_Cannon()
     {
         if (cannonCoolTime <= 0)
         {
             GameObject cannonBall = Instantiate(cannonBallPrefab, curBulletPos.position, curBulletPos.rotation);
+            AudioManager.instance.cannonShoot.Play();
+            yield return new WaitForSeconds(1f);
+            AudioManager.instance.boom.Play();
             cannonBall.GetComponent<Rigidbody>().velocity = cannonBall.transform.forward * cannonBallSpeed * Time.deltaTime;
             cannonCoolTime = cannonCoolDown;
-            Destroy(cannonBall, 3f);
+            Destroy(cannonBall, 1.5f);
         }
     }
 
@@ -169,6 +178,7 @@ public class mainCamera : MonoBehaviour
                 if (objHit.name == "Gun")
                 {
                     isHaveGun = true;
+                    AudioManager.instance.reload.Play(); //총 줍는 소리로 대체함
                     gun.transform.DOMove(gunPos.transform.position, 0.2f).SetEase(Ease.OutExpo);
                     gun.transform.DORotate(gunRot, 0.2f).SetEase(Ease.OutExpo);
                 }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Shop : MonoBehaviour
 {
     //TODO. 우클릭을 누르면 해당 오브젝트의 설명 나오게 하기
-    //gunPanel부분 구현하기
     public static Shop instance;
 
     public GameObject shop;
@@ -30,8 +29,14 @@ public class Shop : MonoBehaviour
     [Header("버튼")]
     public GameObject streetLightButton;
     public GameObject towerButton;
-    public GameObject DamageUpButton;
-    public GameObject ReLoadSpeedButton;
+    public GameObject damageUpButton;
+    public GameObject reloadSpeedButton;
+
+    [Header("상품 구매 이미지")]
+    public GameObject streetLightImage;
+    public GameObject towerImage;
+
+
 
     private void Awake()
     {
@@ -70,6 +75,7 @@ public class Shop : MonoBehaviour
     //골드가 부족할 때 나오는 문구
     IEnumerator InsufficientGoldLog()
     {
+        AudioManager.instance.InsufficientGold.Play();
         insufficientGoldLog.SetActive(true);
         yield return new WaitForSeconds(2f);
         insufficientGoldLog.SetActive(false);
@@ -78,6 +84,7 @@ public class Shop : MonoBehaviour
     //상품을 구매했을 때 나오는 문구
     IEnumerator Buy()
     {
+        AudioManager.instance.buy.Play();
         buyLog.SetActive(true);
         yield return new WaitForSeconds(2f);
         buyLog.SetActive(false);
@@ -132,6 +139,7 @@ public class Shop : MonoBehaviour
             color.a = 0.5f;
             streetLightButton.GetComponent<Image>().color = color;
             streetLightButton.GetComponent<Button>().interactable = false;
+            streetLightImage.SetActive(true);
         }
     }
 
@@ -150,6 +158,7 @@ public class Shop : MonoBehaviour
             Color color = towerButton.GetComponent<Image>().color;
             color.a = 0.5f;
             towerButton.GetComponent<Image>().color = color;
+            towerImage.SetActive(true);
         }
         else StartCoroutine(InsufficientGoldLog());
     }
@@ -164,7 +173,7 @@ public class Shop : MonoBehaviour
             StartCoroutine(Buy());
             totalGold -= 10;
             bullet.GetComponent<Bullet>().DMG++;
-            StartCoroutine(WaitForSeconds(DamageUpButton));
+            StartCoroutine(WaitForSeconds(damageUpButton));
         }
         else StartCoroutine(InsufficientGoldLog());
     }
@@ -177,7 +186,7 @@ public class Shop : MonoBehaviour
             StartCoroutine(Buy());
             totalGold -= 15;
             mainCamera.instance.reloadTime -= 0.05f;
-            StartCoroutine(WaitForSeconds(ReLoadSpeedButton));
+            StartCoroutine(WaitForSeconds(reloadSpeedButton));
         }
         else StartCoroutine(InsufficientGoldLog());
     }

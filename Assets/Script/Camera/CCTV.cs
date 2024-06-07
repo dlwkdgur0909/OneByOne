@@ -10,6 +10,7 @@ public class CCTV : MonoBehaviour
     {
         previousRotation = curCamera.transform.eulerAngles;
         MoveCamera.Instance.CurrentState = curState;
+        AudioManager.instance.CCTV.Play();
     }
 
     public void AfterStateChange()

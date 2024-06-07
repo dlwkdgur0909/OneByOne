@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     private Vector3 openDoor = new Vector3(0, 90, 0);
     private Vector3 closeDoor = new Vector3(0, 0, 0);
 
+
     public void ChangeIsOpen()
     {
         isOpen = !isOpen;
@@ -15,7 +16,15 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        if(isOpen) door.transform.DORotate(openDoor, 0.5f).SetEase(Ease.Linear);
-        else door.transform.DORotate(closeDoor, 0.5f).SetEase(Ease.Linear);
+        if (isOpen)
+        {
+            door.transform.DORotate(openDoor, 0.5f).SetEase(Ease.Linear);
+            AudioManager.instance.closeDoor.Play();
+        }
+        else 
+        {
+            door.transform.DORotate(closeDoor, 0.4f).SetEase(Ease.Linear);
+            AudioManager.instance.openDoor.Play();
+        } 
     }
 }

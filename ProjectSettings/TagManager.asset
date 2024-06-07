@@ -10,6 +10,7 @@ TagManager:
   - Door
   - Bullet
   - Obstacle
+  - CannonBall
   layers:
   - Default
   - TransparentFX
