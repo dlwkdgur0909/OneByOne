@@ -8,7 +8,6 @@ public class Door : MonoBehaviour
     private Vector3 openDoor = new Vector3(0, 90, 0);
     private Vector3 closeDoor = new Vector3(0, 0, 0);
 
-
     public void ChangeIsOpen()
     {
         isOpen = !isOpen;

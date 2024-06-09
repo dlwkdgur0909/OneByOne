@@ -1,12 +1,10 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public class MonsterSpawner : MonoBehaviour
+public class MonsterSpawnner : MonoBehaviour
 {
     public GameObject[] monsterPrefab;
-    public float[] monsterSpawnProbability; // 확률 값 배열
     public GameObject rangeObj;
-    public GameObject obstacleObj;
     BoxCollider boxCollider;
     public float spawnMonsterTime;
 
@@ -22,31 +20,8 @@ public class MonsterSpawner : MonoBehaviour
 
     void SpawnRandomMonster()
     {
-        int randomIndex = ChooseMonsterIndex();
+        int randomIndex = Random.Range(0,monsterPrefab.Length);
         Instantiate(monsterPrefab[randomIndex], Return_RandomPosition(), Quaternion.identity);
-    }
-
-    int ChooseMonsterIndex()
-    {
-        float totalProbability = 0f;
-        foreach (float probability in monsterSpawnProbability)
-        {
-            totalProbability += probability;
-        }
-
-        float randomValue = Random.Range(0f, totalProbability);
-        float cumulativeProbability = 0f;
-        for (int i = 0; i < monsterSpawnProbability.Length; i++)
-        {
-            cumulativeProbability += monsterSpawnProbability[i];
-            if (randomValue <= cumulativeProbability)
-            {
-                return i;
-            }
-        }
-
-        // 이 지점에 도달할 경우 문제가 있으므로 기본값을 반환합니다.
-        return 0;
     }
 
     IEnumerator SpawnMonster(float time)

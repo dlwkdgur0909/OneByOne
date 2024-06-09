@@ -10,9 +10,6 @@ public class GameManager : MonoBehaviour
     public Transform door;
     public Transform frontDoor;
 
-    //public GameObject settingPanel;
-    //private bool IsPause = false;
-
     void Awake()
     {
         if (instance == null)
@@ -23,26 +20,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Update()
-    {
-        //SettingPanel°ü¸®
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    if (!IsPause)
-        //    {
-        //        settingPanel.SetActive(true);
-        //        IsPause = true;
-        //        Time.timeScale = 0;
-        //    }
-        //    else
-        //    {
-        //        settingPanel.SetActive(false);
-        //        IsPause = false;
-        //        Time.timeScale = 1.0f;
-        //    }
-        //}
     }
 }
 
