@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using JetBrains.Annotations;
 
 public class Shop : MonoBehaviour
 {
-    //TODO. 우클릭을 누르면 해당 오브젝트의 설명 나오게 하기
     public static Shop instance;
 
     public GameObject shop;
@@ -15,28 +15,38 @@ public class Shop : MonoBehaviour
     public TMP_Text totalText;
     public TMP_Text totalText2;
 
+    int i;
+    public bool isBuyCannon = false;
+
     [Header("골드")]
     public int totalGold;
     public GameObject buyLog;
     public GameObject insufficientGoldLog;
 
     [Header("오브젝트")]
-    int i;
     public GameObject[] streetLight = new GameObject[3];
     public GameObject tower;
+    public GameObject cannon;
     public GameObject bullet;
+
+    [Header("이미지")]
+    public GameObject streetLightImage;
+    public GameObject towerImage;
+    public GameObject cannonImage;
+    public GameObject damageUpImage;
+    public GameObject reloadSpeedImage;
 
     [Header("버튼")]
     public GameObject streetLightButton;
     public GameObject towerButton;
+    public GameObject cannonButton;
     public GameObject damageUpButton;
     public GameObject reloadSpeedButton;
 
     [Header("상품 구매 이미지")]
-    public GameObject streetLightImage;
-    public GameObject towerImage;
-
-
+    public GameObject streetLightAllBuyText;
+    public GameObject towerAllBuyText;
+    public GameObject cannonAllBuyText;
 
     private void Awake()
     {
@@ -131,15 +141,14 @@ public class Shop : MonoBehaviour
             }
         }
         else StartCoroutine(InsufficientGoldLog());
+
         //가로등을 모두 구매했을 때
         if (i == 3)
         {
-            streetLightButton = GameObject.Find("Shop Canvas/Object Panel/Buy Street Light Button");
-            Color color = streetLightButton.GetComponent<Image>().color;
+            streetLightAllBuyText.SetActive(true);
+            Color color = streetLightImage.GetComponent<Image>().color;
             color.a = 0.5f;
-            streetLightButton.GetComponent<Image>().color = color;
-            streetLightButton.GetComponent<Button>().interactable = false;
-            streetLightImage.SetActive(true);
+            streetLightImage.GetComponent<Image>().color = color;
         }
     }
 
@@ -151,19 +160,33 @@ public class Shop : MonoBehaviour
             StartCoroutine(Buy());
             totalGold -= 500;
             tower.SetActive(true);
+            towerAllBuyText.SetActive(true);
 
-            //타워 버튼 투명하게하고 비활성화 하기
-            towerButton.GetComponent<Button>().interactable = false;
-            towerButton = GameObject.Find("Shop Canvas/Object Panel/Buy Cannon Button");
-            Color color = towerButton.GetComponent<Image>().color;
+            //모두 구매했으면 버튼 비활성화 하고 이미지 불투명하게 하기
+            Color color = towerImage.GetComponent<Image>().color;
             color.a = 0.5f;
-            towerButton.GetComponent<Image>().color = color;
-            towerImage.SetActive(true);
+            towerImage.GetComponent<Image>().color = color;
         }
         else StartCoroutine(InsufficientGoldLog());
     }
 
-    //철조망 구매
+    public void BuyCannon()
+    {
+        if (totalGold >= 800)
+        {
+            StartCoroutine(Buy());
+            totalGold -= 800;
+            cannon.SetActive(true);
+            isBuyCannon = true;
+            cannonAllBuyText.SetActive(true);
+
+            //모두 구매했으면 버튼 비활성화 하고 이미지 불투명하게 하기
+            Color color = cannonImage.GetComponent<Image>().color;
+            color.a = 0.5f;
+            cannonImage.GetComponent<Image>().color = color;
+        }
+        else StartCoroutine(InsufficientGoldLog());
+    }
 
     //공격력 상승
     public void BuyDamageUp()

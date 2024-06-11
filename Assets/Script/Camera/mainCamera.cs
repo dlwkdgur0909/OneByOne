@@ -89,7 +89,7 @@ public class mainCamera : MonoBehaviour
             //รั น฿ป็
             if (Input.GetMouseButtonDown(1) && isReloading == false)
             {
-                if (Instance.currentState == CameraState.Tower) StartCoroutine(C_Cannon());
+                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) StartCoroutine(C_Cannon());
                 else if (curAmmo > 0)
                 {
                     --curAmmo;

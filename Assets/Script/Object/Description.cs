@@ -1,14 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
+using DG.Tweening;
 
+//이건 추후 개발...
 public class Description : MonoBehaviour
 {
-    private bool isRotated = false;
-
     private Vector3 originalRot = new Vector3(0, 0, 0);
     private Vector3 rotatedRot = new Vector3(0, 180, 0);
-
-    private RectTransform rectTransform;
 
     public GameObject streetLightDes;
     public GameObject towerDes;
@@ -16,32 +13,67 @@ public class Description : MonoBehaviour
     public GameObject damageUpDes;
     public GameObject reloadSpeedDes;
 
+    private RectTransform streetLightRect;
+    private RectTransform towerRect;
+    private RectTransform wireRect;
+    private RectTransform damageUpRect;
+    private RectTransform reloadSpeedRect;
+
+    private bool isStreetLightRotated = false;
+    private bool isTowerRotated = false;
+    private bool isWireRotated = false;
+    private bool isDamageUpRotated = false;
+    private bool isReloadSpeedRotated = false;
+
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        streetLightRect = streetLightDes.GetComponent<RectTransform>();
+        towerRect = towerDes.GetComponent<RectTransform>();
+        wireRect = wireDes.GetComponent<RectTransform>();
+        damageUpRect = damageUpDes.GetComponent<RectTransform>();
+        reloadSpeedRect = reloadSpeedDes.GetComponent<RectTransform>();
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition))
+            Vector3 mousePosition = Input.mousePosition;
+            Debug.Log($"Mouse position: {mousePosition}");
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(streetLightRect, mousePosition))
             {
-                OnRotateButtonClick();
+                OnRotateButtonClick(streetLightRect, ref isStreetLightRotated);
+            }
+            else if (RectTransformUtility.RectangleContainsScreenPoint(towerRect, mousePosition))
+            {
+                OnRotateButtonClick(towerRect, ref isTowerRotated);
+            }
+            else if (RectTransformUtility.RectangleContainsScreenPoint(wireRect, mousePosition))
+            {
+                OnRotateButtonClick(wireRect, ref isWireRotated);
+            }
+            else if (RectTransformUtility.RectangleContainsScreenPoint(damageUpRect, mousePosition))
+            {
+                OnRotateButtonClick(damageUpRect, ref isDamageUpRotated);
+            }
+            else if (RectTransformUtility.RectangleContainsScreenPoint(reloadSpeedRect, mousePosition))
+            {
+                OnRotateButtonClick(reloadSpeedRect, ref isReloadSpeedRotated);
             }
         }
     }
 
-    void OnRotateButtonClick()
+    void OnRotateButtonClick(RectTransform rectTransform, ref bool isRotated)
     {
         if (!isRotated)
         {
-            rectTransform.rotation = Quaternion.Euler(rotatedRot);
+            rectTransform.DORotate(rotatedRot,0.3f).SetEase(Ease.Linear);
             isRotated = true;
         }
         else
         {
-            rectTransform.rotation = Quaternion.Euler(originalRot);
+            rectTransform.DORotate(originalRot, 0.3f).SetEase(Ease.Linear);
             isRotated = false;
         }
     }
