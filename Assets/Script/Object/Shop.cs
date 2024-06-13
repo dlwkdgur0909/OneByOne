@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using JetBrains.Annotations;
+using System.Net.NetworkInformation;
 
 public class Shop : MonoBehaviour
 {
@@ -16,12 +17,14 @@ public class Shop : MonoBehaviour
     public TMP_Text totalText2;
 
     int i;
+    private bool isBuyTower = false;
     public bool isBuyCannon = false;
 
     [Header("골드")]
     public int totalGold;
     public GameObject buyLog;
     public GameObject insufficientGoldLog;
+    public GameObject buyTowerLog;
 
     [Header("오브젝트")]
     public GameObject[] streetLight = new GameObject[3];
@@ -100,6 +103,15 @@ public class Shop : MonoBehaviour
         buyLog.SetActive(false);
     }
 
+    //타워 안사고 대포부터 사려고 했을 때 나오는 문구
+    IEnumerator PleaseBuyTower()
+    {
+        AudioManager.instance.InsufficientGold.Play();
+        buyTowerLog.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        buyTowerLog.SetActive(false);
+    }
+
     public void OpenShop()
     {
         shop.SetActive(true);
@@ -149,6 +161,7 @@ public class Shop : MonoBehaviour
             Color color = streetLightImage.GetComponent<Image>().color;
             color.a = 0.5f;
             streetLightImage.GetComponent<Image>().color = color;
+            streetLightButton.GetComponent<Button>().interactable = false;
         }
     }
 
@@ -161,18 +174,24 @@ public class Shop : MonoBehaviour
             totalGold -= 500;
             tower.SetActive(true);
             towerAllBuyText.SetActive(true);
+            isBuyTower = true;
 
             //모두 구매했으면 버튼 비활성화 하고 이미지 불투명하게 하기
             Color color = towerImage.GetComponent<Image>().color;
             color.a = 0.5f;
             towerImage.GetComponent<Image>().color = color;
+            towerButton.GetComponent<Button>().interactable = false;
         }
         else StartCoroutine(InsufficientGoldLog());
     }
 
     public void BuyCannon()
     {
-        if (totalGold >= 800)
+        //타워 안사고 대포부터 사려고 했을 때 나오는 문구
+        if (!isBuyTower) StartCoroutine(PleaseBuyTower());
+        if(totalGold < 800) StartCoroutine(InsufficientGoldLog());
+
+        if (totalGold >= 800 && isBuyTower == true)
         {
             StartCoroutine(Buy());
             totalGold -= 800;
@@ -184,8 +203,8 @@ public class Shop : MonoBehaviour
             Color color = cannonImage.GetComponent<Image>().color;
             color.a = 0.5f;
             cannonImage.GetComponent<Image>().color = color;
+            cannonButton.GetComponent<Button>().interactable = false;
         }
-        else StartCoroutine(InsufficientGoldLog());
     }
 
     //공격력 상승
