@@ -2,8 +2,6 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using JetBrains.Annotations;
-using System.Net.NetworkInformation;
 
 public class Shop : MonoBehaviour
 {
