@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
@@ -72,9 +70,4 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    private void Update()
-    {
-        //게임 시작할때 샤라락 ㅇㅋ?
-        blackPanel.transform.Translate(new Vector3(-100f, 0, 0) * moveSpeed * Time.deltaTime); 
-    }
 }

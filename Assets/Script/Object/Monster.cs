@@ -10,7 +10,9 @@ public class Monster : MonoBehaviour
 
     private Transform door;
     private Transform frontDoor;
-    private Vector3 playerPos;
+
+    public GameObject hitParticle;
+    private ParticleSystem hit;
 
     [Header("기본 값")]
     public int maxHp; // 최대 HP 값
@@ -38,6 +40,7 @@ public class Monster : MonoBehaviour
         currentHp = maxHp;
         hpSlider.maxValue = maxHp;
         hpSlider.value = currentHp;
+        hit = hitParticle.GetComponent<ParticleSystem>();   
     }
 
     void Update()
@@ -63,6 +66,7 @@ public class Monster : MonoBehaviour
             {
                 currentHp -= bullet.DMG;
                 hpSlider.value = currentHp;
+                hit.Play();
             }
         }
         if (collision.gameObject.CompareTag("CannonBall"))
@@ -72,6 +76,7 @@ public class Monster : MonoBehaviour
             {
                 currentHp -= cannonBall.DMG;
                 hpSlider.value = currentHp;
+                hit.Play();
             }
         }
     }

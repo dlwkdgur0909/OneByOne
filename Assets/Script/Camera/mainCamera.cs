@@ -28,6 +28,10 @@ public class mainCamera : MonoBehaviour
     private int curAmmo;
     private bool isReloading = false;
 
+    //Particle
+    public GameObject fireParticle;
+    private ParticleSystem fire;
+
     public GameObject bulletPrefab;
     public GameObject cannonBallPrefab;
     public Transform curBulletPos;
@@ -60,6 +64,7 @@ public class mainCamera : MonoBehaviour
     {
         coolTimeImage.fillAmount = 0;
         curAmmo = maxAmmo;
+        fire = fireParticle.GetComponent<ParticleSystem>();
     }
 
     public void Update()
@@ -94,6 +99,7 @@ public class mainCamera : MonoBehaviour
                 {
                     --curAmmo;
                     Fire();
+                    fire.Play();
                     AudioManager.instance.shoot.Play();
                 }
                 else return;
@@ -121,8 +127,10 @@ public class mainCamera : MonoBehaviour
         gun.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
     }
 
+    //ÀçÀåÀü
     IEnumerator ReLoad()
     {
+        gun.transform.DORotate(new Vector3(0, 360f, 0), reloadTime, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
         isReloading = true;
         float reloadingTime = reloadTime;
         while (reloadingTime > 0)
