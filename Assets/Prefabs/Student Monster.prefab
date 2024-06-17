@@ -5452,7 +5452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 774568582556231180}
   hpSlider: {fileID: 3504424779147720671}
-  hitParticle: {fileID: 0}
+  hitParticle: {fileID: 1540683447290643931}
   maxHp: 5
   DMG: 5
   goldValue: 3

@@ -33,6 +33,7 @@ public class Monster : MonoBehaviour
     {
         door = GameManager.instance.door;
         frontDoor = GameManager.instance.frontDoor;
+        hit = hitParticle.GetComponent<ParticleSystem>();
     }
 
     void Start()
@@ -40,7 +41,6 @@ public class Monster : MonoBehaviour
         currentHp = maxHp;
         hpSlider.maxValue = maxHp;
         hpSlider.value = currentHp;
-        hit = hitParticle.GetComponent<ParticleSystem>();   
     }
 
     void Update()

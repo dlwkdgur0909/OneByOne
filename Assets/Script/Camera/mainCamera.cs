@@ -30,7 +30,9 @@ public class mainCamera : MonoBehaviour
 
     //Particle
     public GameObject fireParticle;
-    private ParticleSystem fire;
+    private ParticleSystem gunFire;
+    public GameObject cannonParticle;
+    private ParticleSystem cannonFire;
 
     public GameObject bulletPrefab;
     public GameObject cannonBallPrefab;
@@ -64,7 +66,8 @@ public class mainCamera : MonoBehaviour
     {
         coolTimeImage.fillAmount = 0;
         curAmmo = maxAmmo;
-        fire = fireParticle.GetComponent<ParticleSystem>();
+        gunFire = fireParticle.GetComponent<ParticleSystem>();
+        cannonFire = cannonParticle.GetComponent<ParticleSystem>();
     }
 
     public void Update()
@@ -94,16 +97,22 @@ public class mainCamera : MonoBehaviour
             //총 발사
             if (Input.GetMouseButtonDown(1) && isReloading == false)
             {
-                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) StartCoroutine(C_Cannon());
+                //cannon일 때
+                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true)
+                {
+                    cannonFire.Play();
+                    StartCoroutine(C_Cannon()); 
+                }
                 else if (curAmmo > 0)
                 {
                     --curAmmo;
                     Fire();
-                    fire.Play();
+                    gunFire.Play();
                     AudioManager.instance.shoot.Play();
                 }
                 else return;
             }
+            //CCTV를 보고있는 상태이면 bulletPos를 CCTV의 bulletPos로 이동시키기
             if (MoveCamera.Instance.isOnCamera == true) curBulletPos.transform.position = CCTVbulletPos.transform.position;
             else curBulletPos.transform.position = bulletPos.transform.position;
             //총 버리기
