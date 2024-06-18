@@ -156,8 +156,8 @@ MonoBehaviour:
   isFrontDoor: 1
   hitParticle: {fileID: 4707499160894752178}
   maxHp: 20
-  DMG: 2
-  maxRayDistance: 0.2
+  DMG: 8
+  maxRayDistance: 5
   coolTime: 3
   goldValue: 5
 --- !u!195 &2050817302392883222

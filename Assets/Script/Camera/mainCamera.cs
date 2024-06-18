@@ -98,14 +98,14 @@ public class mainCamera : MonoBehaviour
             if (Input.GetMouseButtonDown(1) && isReloading == false)
             {
                 //cannon일 때
-                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) StartCoroutine(C_Cannon());
+                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) Cannon();
                 //CCTV를 보고있는 상태일 때 총소리 달라짐
                 else if (curAmmo > 0 && Instance.isOnCamera)
                 {
                     --curAmmo;
                     Fire();
                     AudioManager.instance.cctvShoot.Play();
-                } 
+                }
                 else if (curAmmo > 0)
                 {
                     --curAmmo;
@@ -170,15 +170,13 @@ public class mainCamera : MonoBehaviour
         Destroy(bullet, 2f);
     }
 
-    IEnumerator C_Cannon()
+    private void Cannon()
     {
         if (cannonCoolTime <= 0)
         {
             cannonFire.Play();
             GameObject cannonBall = Instantiate(cannonBallPrefab, curBulletPos.position, curBulletPos.rotation);
             AudioManager.instance.cannonShoot.Play();
-            yield return new WaitForSeconds(1f);
-            AudioManager.instance.boom.Play();
             cannonBall.GetComponent<Rigidbody>().velocity = cannonBall.transform.forward * cannonBallSpeed * Time.deltaTime;
             cannonCoolTime = cannonCoolDown;
             Destroy(cannonBall, 1.5f);

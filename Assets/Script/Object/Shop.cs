@@ -212,7 +212,7 @@ public class Shop : MonoBehaviour
         {
             StartCoroutine(Buy());
             totalGold -= 10;
-            bullet.GetComponent<Bullet>().DMG++;
+            bullet.GetComponent<Bullet>().DMG += (int)0.5f;
             StartCoroutine(WaitForSeconds(damageUpButton));
         }
         else StartCoroutine(InsufficientGoldLog());

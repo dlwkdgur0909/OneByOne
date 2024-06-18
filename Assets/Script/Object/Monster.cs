@@ -28,6 +28,7 @@ public class Monster : MonoBehaviour
     public int DMG; // 대문에 넣을 데미지
     public float maxRayDistance; //공격 사거리
     public float coolTime; //공격 쿨타임
+    private float attackTimer;
     public int goldValue; //죽였을 때 얻는 골드의 양
 
 
@@ -52,9 +53,17 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        attackTimer -= Time.deltaTime;
+
+        //공격이 가능한지 확인
+        if (attackTimer < 0)
+        {
+            Ray();
+            attackTimer = coolTime;
+        }
+
         //if (isDoor) agent.SetDestination(door.position);
         if (isFrontDoor) agent.SetDestination(frontDoor.position);
-        Ray();
 
         // 죽음
         if (currentHp <= 0)
@@ -92,19 +101,13 @@ public class Monster : MonoBehaviour
     public void Ray()
     {
         Debug.DrawRay(transform.position, transform.forward * maxRayDistance, Color.red, 0.1f);
+
         if (Physics.Raycast(transform.position, transform.forward, out rayHit, maxRayDistance))
         {
-            if(rayHit.transform.name == "Main Door Pos")
+            if(rayHit.transform.name == "MainDoorPos")
             {
-                StartCoroutine(Attack(coolTime));
-                Debug.Log("Attack Door");
+                rayHit.transform.GetComponent<MainDoor>().TakeDamage(DMG);
             }
         }
-    }
-
-    IEnumerator Attack(float coolTime)
-    {
-        rayHit.transform.GetComponent<MainDoor>().TakeDamage(DMG);
-        yield return new WaitForSeconds(coolTime);
     }
 }

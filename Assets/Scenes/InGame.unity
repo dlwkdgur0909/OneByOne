@@ -19975,7 +19975,7 @@ GameObject:
   - component: {fileID: 1642948345}
   - component: {fileID: 1642948346}
   m_Layer: 0
-  m_Name: Main Door Pos
+  m_Name: MainDoorPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
