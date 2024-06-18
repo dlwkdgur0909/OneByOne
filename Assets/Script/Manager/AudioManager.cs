@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource CCTV;
     
     public AudioSource shoot;
+    public AudioSource cctvShoot;
     public AudioSource reload;
 
     public AudioSource cannonShoot;

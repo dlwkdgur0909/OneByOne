@@ -153,12 +153,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 2050817302392883222}
   hpSlider: {fileID: 8895014592873761731}
+  isFrontDoor: 1
   hitParticle: {fileID: 4707499160894752178}
   maxHp: 20
   DMG: 2
+  maxRayDistance: 0.2
+  coolTime: 3
   goldValue: 5
-  isDoor: 0
-  isFrontDoor: 1
 --- !u!195 &2050817302392883222
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -191,6 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8704497622503731844}
   - component: {fileID: 8895014592873761731}
+  - component: {fileID: 6417074702192599816}
   m_Layer: 5
   m_Name: MonsterHPSlider
   m_TagString: Untagged
@@ -271,6 +273,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6417074702192599816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322101633796769335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0a64f36694b1f4d8fb185fba82afce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1957299861447240635
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,28 +1,35 @@
+using DG.Tweening;
+using System.Collections;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
     public NavMeshAgent agent;
+    RaycastHit rayHit;
     public Slider hpSlider;
 
-    private Transform door;
+    #region door
+    //private Transform door;
     private Transform frontDoor;
+    //public bool isDoor;
+    public bool isFrontDoor;
+    #endregion
 
     public GameObject hitParticle;
     private ParticleSystem hit;
 
     [Header("기본 값")]
     public int maxHp; // 최대 HP 값
-    public int DMG; // 대문에 넣을 데미지
-    public int goldValue;
-
     private int currentHp; // 현재 HP 값
+    public int DMG; // 대문에 넣을 데미지
+    public float maxRayDistance; //공격 사거리
+    public float coolTime; //공격 쿨타임
+    public int goldValue; //죽였을 때 얻는 골드의 양
 
-    public bool isDoor;
-    public bool isFrontDoor;
 
     private void Awake()
     {
@@ -31,7 +38,7 @@ public class Monster : MonoBehaviour
 
     public void OnEnable()
     {
-        door = GameManager.instance.door;
+        //door = GameManager.instance.door;
         frontDoor = GameManager.instance.frontDoor;
         hit = hitParticle.GetComponent<ParticleSystem>();
     }
@@ -45,8 +52,9 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        if (isDoor) agent.SetDestination(door.position);
+        //if (isDoor) agent.SetDestination(door.position);
         if (isFrontDoor) agent.SetDestination(frontDoor.position);
+        Ray();
 
         // 죽음
         if (currentHp <= 0)
@@ -79,5 +87,24 @@ public class Monster : MonoBehaviour
                 hit.Play();
             }
         }
+    }
+
+    public void Ray()
+    {
+        Debug.DrawRay(transform.position, transform.forward * maxRayDistance, Color.red, 0.1f);
+        if (Physics.Raycast(transform.position, transform.forward, out rayHit, maxRayDistance))
+        {
+            if(rayHit.transform.name == "Main Door Pos")
+            {
+                StartCoroutine(Attack(coolTime));
+                Debug.Log("Attack Door");
+            }
+        }
+    }
+
+    IEnumerator Attack(float coolTime)
+    {
+        rayHit.transform.GetComponent<MainDoor>().TakeDamage(DMG);
+        yield return new WaitForSeconds(coolTime);
     }
 }

@@ -92,17 +92,20 @@ public class mainCamera : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo && Instance.currentState != CameraState.Tower)
             {
                 StartCoroutine(ReLoad());
-                AudioManager.instance.reload.Play();
+
             }
             //총 발사
             if (Input.GetMouseButtonDown(1) && isReloading == false)
             {
                 //cannon일 때
-                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true)
+                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) StartCoroutine(C_Cannon());
+                //CCTV를 보고있는 상태일 때 총소리 달라짐
+                else if (curAmmo > 0 && Instance.isOnCamera)
                 {
-                    cannonFire.Play();
-                    StartCoroutine(C_Cannon()); 
-                }
+                    --curAmmo;
+                    Fire();
+                    AudioManager.instance.cctvShoot.Play();
+                } 
                 else if (curAmmo > 0)
                 {
                     --curAmmo;
@@ -139,18 +142,23 @@ public class mainCamera : MonoBehaviour
     //재장전
     IEnumerator ReLoad()
     {
-        gun.transform.DORotate(new Vector3(0, 360f, 0), reloadTime, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
-        isReloading = true;
-        float reloadingTime = reloadTime;
-        while (reloadingTime > 0)
+        if (!isReloading)
         {
-            reloadingTime -= Time.deltaTime;
-            coolTimeImage.fillAmount = 1 - (reloadingTime / reloadTime);
-            yield return null;
+            gun.transform.DORotate(new Vector3(0, 360f, 0), reloadTime, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+            isReloading = true;
+            AudioManager.instance.reload.Play();
+            float reloadingTime = reloadTime;
+            while (reloadingTime > 0)
+            {
+                reloadingTime -= Time.deltaTime;
+                coolTimeImage.fillAmount = 1 - (reloadingTime / reloadTime);
+                yield return null;
+            }
+            curAmmo = maxAmmo;
+            isReloading = false;
+            coolTimeImage.fillAmount = 0; // 쿨타임 이미지를 초기화
         }
-        curAmmo = maxAmmo;
-        isReloading = false;
-        coolTimeImage.fillAmount = 0; // 쿨타임 이미지를 초기화
+        else yield return null;
     }
 
     private void Fire()
@@ -166,6 +174,7 @@ public class mainCamera : MonoBehaviour
     {
         if (cannonCoolTime <= 0)
         {
+            cannonFire.Play();
             GameObject cannonBall = Instantiate(cannonBallPrefab, curBulletPos.position, curBulletPos.rotation);
             AudioManager.instance.cannonShoot.Play();
             yield return new WaitForSeconds(1f);

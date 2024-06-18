@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class LookAtTheCamera : MonoBehaviour
 {
-    public Transform target;
-
     void Update()
     {
-        transform.LookAt(target.transform.position);
+        transform.LookAt(GameManager.instance.cameraTrans.position);
     }
 }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public Transform door;
     public Transform frontDoor;
+    public Transform cameraTrans;
 
     void Awake()
     {
