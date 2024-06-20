@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,10 +14,10 @@ public class Monster : MonoBehaviour
     public Slider hpSlider;
 
     #region door
-    //private Transform door;
+    private Transform playerPos;
     private Transform frontDoor;
-    //public bool isDoor;
-    public bool isFrontDoor;
+    private bool isPlayerPos = false;
+    private bool isFrontDoor = true;
     #endregion
 
     public GameObject hitParticle;
@@ -26,11 +27,10 @@ public class Monster : MonoBehaviour
     public int maxHp; // 최대 HP 값
     private int currentHp; // 현재 HP 값
     public int DMG; // 대문에 넣을 데미지
-    public float maxRayDistance; //공격 사거리
-    public float coolTime; //공격 쿨타임
+    public float maxRayDistance; // 공격 사거리
+    public float coolTime; // 공격 쿨타임
     private float attackTimer;
-    public int goldValue; //죽였을 때 얻는 골드의 양
-
+    public int goldValue; // 죽였을 때 얻는 골드의 양
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class Monster : MonoBehaviour
 
     public void OnEnable()
     {
-        //door = GameManager.instance.door;
+        playerPos = GameManager.instance.playerPos;
         frontDoor = GameManager.instance.frontDoor;
         hit = hitParticle.GetComponent<ParticleSystem>();
     }
@@ -54,15 +54,26 @@ public class Monster : MonoBehaviour
     void Update()
     {
         attackTimer -= Time.deltaTime;
-
-        //공격이 가능한지 확인
-        if (attackTimer < 0)
+        //문이 부숴졌을 때
+        if (frontDoor == null)
         {
-            Ray();
+            isPlayerPos = true;
+            isFrontDoor = false;
+        }
+
+        // 공격이 가능한지 확인
+        if (attackTimer < 0 && isFrontDoor)
+        {
+            DoorRay();
+            attackTimer = coolTime;
+        }
+        if (attackTimer < 0 && isPlayerPos)
+        {
+            PlayerRay();
             attackTimer = coolTime;
         }
 
-        //if (isDoor) agent.SetDestination(door.position);
+        if (isPlayerPos) agent.SetDestination(playerPos.transform.position);
         if (isFrontDoor) agent.SetDestination(frontDoor.position);
 
         // 죽음
@@ -98,15 +109,32 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public void Ray()
+    private void DoorRay()
     {
-        Debug.DrawRay(transform.position, transform.forward * maxRayDistance, Color.red, 0.1f);
+        Vector3 origin = transform.position;
+        Vector3 direction = frontDoor.transform.forward;
 
-        if (Physics.Raycast(transform.position, transform.forward, out rayHit, maxRayDistance))
+        if (Physics.Raycast(origin, direction, out rayHit, maxRayDistance))
         {
-            if(rayHit.transform.name == "MainDoorPos")
+            if (rayHit.transform.name == "MainDoorPos")
             {
+                Debug.Log("front door");
                 rayHit.transform.GetComponent<MainDoor>().TakeDamage(DMG);
+            }
+        }
+    }
+
+    private void PlayerRay()
+    {
+        Vector3 origin = transform.position;
+        Vector3 direction = playerPos.transform.forward;
+
+        if (Physics.Raycast(origin, direction, out rayHit, maxRayDistance))
+        {
+            if (rayHit.transform.name == "Player")
+            {
+                Debug.Log("Player");
+                rayHit.transform.GetComponent<Player>().TakeDamage(DMG);
             }
         }
     }

@@ -14,7 +14,6 @@ public class mainCamera : MonoBehaviour
 
     #region UI
     public TMP_Text curAmmoText;
-
     public Image coolTimeImage;
     #endregion
 

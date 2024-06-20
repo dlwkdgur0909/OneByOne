@@ -5465,11 +5465,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 774568582556231180}
   hpSlider: {fileID: 3504424779147720671}
-  isFrontDoor: 1
   hitParticle: {fileID: 1540683447290643931}
   maxHp: 5
   DMG: 5
-  maxRayDistance: 40
+  maxRayDistance: 60
   coolTime: 1
   goldValue: 3
 --- !u!195 &774568582556231180

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainDoor : MonoBehaviour
@@ -10,6 +11,7 @@ public class MainDoor : MonoBehaviour
     {
         if(doorHP <= 0)
         {
+            //문이 부숴졌습니다 띄우기
             Destroy(gameObject);
         }
     }
