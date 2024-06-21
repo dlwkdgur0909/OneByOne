@@ -18,6 +18,12 @@ public class mainCamera : MonoBehaviour
     #endregion
 
     #region BulletShooter
+    public GameObject flash;
+    public GameObject flashPos;
+    private Vector3 flashRot = new Vector3(0, 0, 0);
+    public bool isHaveFlash;
+    private bool isTurnOn = false;
+
     public GameObject gun;
     public GameObject gunPos;
     private Vector3 gunRot = new Vector3(-90f, 90f, 0f);
@@ -71,22 +77,44 @@ public class mainCamera : MonoBehaviour
 
     public void Update()
     {
-        if (isShop == false)
+        if (isShop) return;
+        if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
+        Ray();
+        UpdateRotate();
+        HaveGun();
+        HaveFlash();
+    }
+
+    public void HaveFlash()
+    {
+        if (isHaveFlash)
         {
-            if (cannonCoolTime > 0f) cannonCoolTime -= Time.deltaTime;
-            Ray();
-            UpdateRotate();
-            HaveGun();
+            flash.transform.position = flashPos.transform.position;
+            flash.transform.rotation = flashPos.transform.rotation;
+            //불 껐다 켜기
+            if (Input.GetMouseButtonDown(1))
+            {
+                isTurnOn = !isTurnOn;
+                flash.GetComponent<Light>().enabled = isTurnOn;
+            }
+            //손전등 버리기
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                Throw();
+                isHaveFlash = false;
+            }
         }
+        else return;
     }
 
     public void HaveGun()
     {
-        if (isHaveGun == true)
+        if (isHaveGun)
         {
             Ammo();
             gun.transform.position = gunPos.transform.position;
             gun.transform.rotation = gunPos.transform.rotation;
+
             //재장전
             if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo && Instance.currentState != CameraState.Tower)
             {
@@ -120,10 +148,11 @@ public class mainCamera : MonoBehaviour
             //총 버리기
             if (Input.GetKeyDown(KeyCode.G))
             {
-                isHaveGun = false;
                 Throw();
+                isHaveGun = false;
             }
         }
+        else return;
     }
 
     private void UpdateRotate()
@@ -135,7 +164,8 @@ public class mainCamera : MonoBehaviour
 
     private void Throw()
     {
-        gun.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        if (isHaveGun) gun.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        if (isHaveFlash) flash.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
     }
 
     //재장전
@@ -190,7 +220,7 @@ public class mainCamera : MonoBehaviour
         bool raycastHit = Physics.Raycast(ray, out hit);
 
         // 레이캐스트가 뭔가를 감지했을 때만 InteractionKey를 활성화
-        InteractionKey.SetActive(raycastHit && (hit.transform.name == "Gun" || hit.transform.name == "Door" || hit.transform.name == "Shop"));
+        InteractionKey.SetActive(raycastHit && (hit.transform.name == "Gun" || hit.transform.name == "Door" || hit.transform.name == "Shop" | hit.transform.name == "FlashLight"));
 
         if (raycastHit)
         {
@@ -200,10 +230,21 @@ public class mainCamera : MonoBehaviour
             {
                 if (objHit.name == "Gun")
                 {
+                    //손전등을 갖고있으면 리턴
+                    if (isHaveFlash) return;
                     isHaveGun = true;
                     AudioManager.instance.reload.Play(); //총 줍는 소리로 대체함
                     gun.transform.DOMove(gunPos.transform.position, 0.2f).SetEase(Ease.OutExpo);
                     gun.transform.DORotate(gunRot, 0.2f).SetEase(Ease.OutExpo);
+                }
+
+                if (objHit.name == "FlashLight")
+                {
+                    //총을 갖고있으면 리턴
+                    if (isHaveGun) return;
+                    isHaveFlash = true;
+                    flash.transform.DOMove(flashPos.transform.position, 0.2f).SetEase(Ease.OutExpo);
+                    flash.transform.DORotate(flashRot, 0.2f).SetEase(Ease.OutExpo);
                 }
 
                 if (objHit.name == "Door")

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using static MoveCamera;
 
@@ -5,7 +6,8 @@ public class RotateCamera : MonoBehaviour
 {
     public Transform[] curCameraObj;
     #region CameraRotate
-    public float rotSpeed; //감도
+
+    public static float rotSpeed = 500f; //감도
 
     private float limitMaxY = 50; //카메라 Y축 회전 범위(최대)
     private float limitMinY = -17; //카메라 Y축 회전 범위(최소)
@@ -17,11 +19,12 @@ public class RotateCamera : MonoBehaviour
     private float eulerAngleY; // 마우스 위 / 아래 이동으로 카메라 x축 회전
     #endregion
 
+    //카메라마다 제한되는 카메라의 회전값을 설정해주는 함수
     public void CameraRotate(float mouseX, float mouseY)
     {
         transform.rotation = Quaternion.Euler(eulerAngleY, 180, 0);
-        eulerAngleY += mouseX * rotSpeed;
-        eulerAngleX -= mouseY * rotSpeed;
+        eulerAngleY += mouseX * rotSpeed * Time.deltaTime;
+        eulerAngleX -= mouseY * rotSpeed * Time.deltaTime;
         eulerAngleX = ClampAngle(eulerAngleX, limitMinY, limitMaxY);
 
         transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);

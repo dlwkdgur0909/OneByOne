@@ -54,7 +54,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         attackTimer -= Time.deltaTime;
-        //문이 부숴졌을 때
+        // 문이 부숴졌을 때
         if (frontDoor == null)
         {
             isPlayerPos = true;
@@ -107,6 +107,15 @@ public class Monster : MonoBehaviour
                 hit.Play();
             }
         }
+        // 플레이어와 부딪혔을 때
+        //if (isPlayerPos && collision.gameObject.CompareTag("Player"))
+        //{
+        //    Player player = collision.gameObject.GetComponent<Player>();
+        //    if (player != null)
+        //    {
+        //        player.TakeDamage(DMG);
+        //    }
+        //}
     }
 
     private void DoorRay()

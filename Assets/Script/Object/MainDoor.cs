@@ -12,6 +12,7 @@ public class MainDoor : MonoBehaviour
         if(doorHP <= 0)
         {
             //문이 부숴졌습니다 띄우기
+            GameManager.instance.frontDoor = null;
             Destroy(gameObject);
         }
     }

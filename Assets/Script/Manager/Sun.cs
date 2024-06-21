@@ -11,17 +11,17 @@ public class Sun : MonoBehaviour
 
     void Update()
     {
-        elapsedTime += Time.deltaTime;
+        elapsedTime -= Time.deltaTime; // -= 연산자로 감소
 
-        float sunAngle = Mathf.Lerp(-170f, 5f, elapsedTime / timeInSeconds);
+        float sunAngle = Mathf.Lerp(5f, -170f, elapsedTime / timeInSeconds);
         sun.transform.rotation = Quaternion.Euler(sunAngle, 0f, 0f);
 
-        timeText.text = Mathf.FloorToInt(elapsedTime).ToString();
+        timeText.text = "남은 시간:" + Mathf.FloorToInt(elapsedTime).ToString();
 
-        //시간 다 지남
-        if (elapsedTime >= timeInSeconds)
+        // 시간이 0 이하로 내려갔을 때 초기화
+        if (elapsedTime <= 0f)
         {
-            elapsedTime = 0f;
+            elapsedTime = timeInSeconds;
         }
     }
 }
