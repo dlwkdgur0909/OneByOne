@@ -18,6 +18,7 @@ public class mainCamera : MonoBehaviour
     #endregion
 
     #region BulletShooter
+    public GameObject flashObject;
     public GameObject flash;
     public GameObject flashPos;
     private Vector3 flashRot = new Vector3(0, 0, 0);
@@ -89,8 +90,8 @@ public class mainCamera : MonoBehaviour
     {
         if (isHaveFlash)
         {
-            flash.transform.position = flashPos.transform.position;
-            flash.transform.rotation = flashPos.transform.rotation;
+            flashObject.transform.position = flashPos.transform.position;
+            flashObject.transform.rotation = flashPos.transform.rotation;
             //불 껐다 켜기
             if (Input.GetMouseButtonDown(1))
             {
@@ -165,7 +166,7 @@ public class mainCamera : MonoBehaviour
     private void Throw()
     {
         if (isHaveGun) gun.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
-        if (isHaveFlash) flash.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        if (isHaveFlash) flashObject.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
     }
 
     //재장전
@@ -243,8 +244,8 @@ public class mainCamera : MonoBehaviour
                     //총을 갖고있으면 리턴
                     if (isHaveGun) return;
                     isHaveFlash = true;
-                    flash.transform.DOMove(flashPos.transform.position, 0.2f).SetEase(Ease.OutExpo);
-                    flash.transform.DORotate(flashRot, 0.2f).SetEase(Ease.OutExpo);
+                    flashObject.transform.DOMove(flashPos.transform.position, 0.2f).SetEase(Ease.OutExpo);
+                    flashObject.transform.DORotate(flashRot, 0.2f).SetEase(Ease.OutExpo);
                 }
 
                 if (objHit.name == "Door")
