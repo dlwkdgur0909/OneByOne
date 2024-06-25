@@ -26,6 +26,7 @@ public class mainCamera : MonoBehaviour
     private bool isTurnOn = false;
 
     public GameObject gun;
+    public GameObject gunOBJ;
     public GameObject gunPos;
     private Vector3 gunRot = new Vector3(-90f, 90f, 0f);
 

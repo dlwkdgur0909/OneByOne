@@ -53,8 +53,8 @@ public class MoveCamera : MonoBehaviour
             CurrentState = CameraState.Original;
         }
 
-        if(isOnCamera == true) instance.gun.SetActive(false);
-        else instance.gun.SetActive(true);
+        if(isOnCamera == true) instance.gunOBJ.SetActive(false);
+        else instance.gunOBJ.SetActive(true);
     }
 
     //cameraIndex에 따라 메인 카메라가 선택된 cameraIndex로 이동

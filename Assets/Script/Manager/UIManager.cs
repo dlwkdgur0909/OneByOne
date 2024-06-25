@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     public void InGame()
     {
-        SceneManager.LoadScene("InGame");
+        SceneManager.LoadScene("Stage1");
     }
 
     public void On_HowToPlay()
