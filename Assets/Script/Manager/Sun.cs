@@ -5,7 +5,11 @@ public class Sun : MonoBehaviour
     public Transform sun;
 
     public float timeInSeconds = 180f;
+<<<<<<< HEAD
     private float elapsedTime = 0f;
+=======
+    public float elapsedTime = 0.1f;
+>>>>>>> 192c12c (Game Clear and Game over 2)
 
     public TMPro.TMP_Text timeText;
 

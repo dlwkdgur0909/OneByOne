@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEngine;
+<<<<<<< HEAD
+=======
+using DG.Tweening;
+>>>>>>> 192c12c (Game Clear and Game over 2)
 
 public class GameManager : MonoBehaviour
 {
