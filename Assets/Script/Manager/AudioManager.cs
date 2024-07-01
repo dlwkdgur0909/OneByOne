@@ -22,6 +22,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource buy;
     public AudioSource InsufficientGold;
 
+    public AudioSource monsterAttack;
+
     private void Awake()
     {
         if (instance == null) instance = this;

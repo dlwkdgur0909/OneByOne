@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class Setting : MonoBehaviour
 {
     #region Sound
     [Header("Sound")]
     [SerializeField] private GameObject soundPanel;
+
     #endregion
 
     #region Play
@@ -40,4 +42,5 @@ public class Setting : MonoBehaviour
     {
         RenderSettings.ambientIntensity = value;
     }
+
 }

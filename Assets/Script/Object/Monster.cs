@@ -107,17 +107,9 @@ public class Monster : MonoBehaviour
                 hit.Play();
             }
         }
-        // ÇÃ·¹ÀÌ¾î¿Í ºÎµúÇûÀ» ¶§
-        //if (isPlayerPos && collision.gameObject.CompareTag("Player"))
-        //{
-        //    Player player = collision.gameObject.GetComponent<Player>();
-        //    if (player != null)
-        //    {
-        //        player.TakeDamage(DMG);
-        //    }
-        //}
     }
 
+    //Door Attack
     private void DoorRay()
     {
         Vector3 origin = transform.position;
@@ -128,11 +120,13 @@ public class Monster : MonoBehaviour
             if (rayHit.transform.name == "MainDoorPos")
             {
                 Debug.Log("front door");
+                AudioManager.instance.monsterAttack.Play();
                 rayHit.transform.GetComponent<MainDoor>().TakeDamage(DMG);
             }
         }
     }
 
+    //Player Attack
     private void PlayerRay()
     {
         Vector3 origin = transform.position;
