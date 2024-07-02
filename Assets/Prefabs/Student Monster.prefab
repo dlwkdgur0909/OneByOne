@@ -5467,9 +5467,10 @@ MonoBehaviour:
   hpSlider: {fileID: 3504424779147720671}
   hitParticle: {fileID: 1540683447290643931}
   maxHp: 5
-  DMG: 5
+  DMG: 3
   maxRayDistance: 60
   coolTime: 1
+  rotationSpeed: 3
   goldValue: 3
 --- !u!195 &774568582556231180
 NavMeshAgent:
@@ -5482,10 +5483,10 @@ NavMeshAgent:
   m_AgentTypeID: -902729914
   m_Radius: 0.5
   m_Speed: 20
-  m_Acceleration: 8
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 500
-  m_StoppingDistance: 60
+  m_StoppingDistance: 50
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

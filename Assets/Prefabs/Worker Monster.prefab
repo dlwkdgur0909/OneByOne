@@ -5430,12 +5430,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 2788995111827560983}
   hpSlider: {fileID: 8367705273722509967}
-  isFrontDoor: 1
   hitParticle: {fileID: 4391250367190491440}
   maxHp: 10
   DMG: 3
   maxRayDistance: 4
   coolTime: 1.5
+  rotationSpeed: 3
   goldValue: 2
 --- !u!195 &2788995111827560983
 NavMeshAgent:

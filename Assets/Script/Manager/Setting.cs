@@ -10,7 +10,6 @@ public class Setting : MonoBehaviour
     #region Sound
     [Header("Sound")]
     [SerializeField] private GameObject soundPanel;
-
     #endregion
 
     #region Play

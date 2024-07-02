@@ -121,7 +121,6 @@ public class mainCamera : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo && Instance.currentState != CameraState.Tower)
             {
                 StartCoroutine(ReLoad());
-
             }
             //รั น฿ป็
             if (Input.GetMouseButtonDown(1) && isReloading == false)
