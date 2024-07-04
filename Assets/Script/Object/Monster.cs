@@ -76,14 +76,9 @@ public class Monster : MonoBehaviour
         }
 
         // 공격이 가능한지 확인
-        if (attackTimer < 0 && isFrontDoor)
+        if (attackTimer < 0)
         {
-            DoorRay();
-            attackTimer = coolTime;
-        }
-        if (attackTimer < 0 && isPlayerPos)
-        {
-            PlayerRay();
+            Ray();
             attackTimer = coolTime;
         }
 
@@ -124,33 +119,23 @@ public class Monster : MonoBehaviour
         }
     }
 
-    //Door Attack
-    private void DoorRay()
+    //공격
+    private void Ray()
     {
         Vector3 origin = transform.position;
         Vector3 direction = transform.forward;
 
         if (Physics.Raycast(origin, direction, out rayHit, maxRayDistance))
         {
+            //MainDoor감지
             if (rayHit.transform.name == "MainDoorPos")
             {
-                Debug.Log("front door");
                 idleAnim.SetTrigger("isIdle");
                 attackAnim.SetTrigger("isAttack");
                 AudioManager.instance.monsterAttack.Play();
                 rayHit.transform.GetComponent<MainDoor>().TakeDamage(DMG);
             }
-        }
-    }
-
-    //Player Attack
-    private void PlayerRay()
-    {
-        Vector3 origin = transform.position;
-        Vector3 direction = transform.forward;
-
-        if (Physics.Raycast(origin, direction, out rayHit, maxRayDistance))
-        {
+            //Player 감지
             if (rayHit.transform.name == "Player")
             {
                 Debug.Log("Player");
