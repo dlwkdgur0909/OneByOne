@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MainDoor : MonoBehaviour
 {
-    public int doorHP = 0;
+    public static int doorHP = 100;
 
     public TMPro.TMP_Text HPText;
 

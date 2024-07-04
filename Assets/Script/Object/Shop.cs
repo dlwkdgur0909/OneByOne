@@ -43,6 +43,7 @@ public class Shop : MonoBehaviour
     public GameObject cannonButton;
     public GameObject damageUpButton;
     public GameObject reloadSpeedButton;
+    public GameObject frontDoorRepairButton;
 
     [Header("상품 구매 이미지")]
     public GameObject streetLightAllBuyText;
@@ -227,6 +228,19 @@ public class Shop : MonoBehaviour
             totalGold -= 15;
             mainCamera.instance.reloadTime -= 0.05f;
             StartCoroutine(WaitForSeconds(reloadSpeedButton));
+        }
+        else StartCoroutine(InsufficientGoldLog());
+    }
+
+    //대문 수리
+    public void FrontDoorRepair()
+    {
+        if (totalGold >= 30 && MainDoor.doorHP <= 99)
+        {
+            StartCoroutine(Buy());
+            totalGold -= 30;
+            MainDoor.doorHP = 100;
+            StartCoroutine(WaitForSeconds(frontDoorRepairButton));
         }
         else StartCoroutine(InsufficientGoldLog());
     }

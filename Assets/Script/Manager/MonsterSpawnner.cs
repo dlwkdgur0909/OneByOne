@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class MonsterSpawnner : MonoBehaviour
@@ -20,7 +21,7 @@ public class MonsterSpawnner : MonoBehaviour
 
     void SpawnRandomMonster()
     {
-        int randomIndex = Random.Range(0,monsterPrefab.Length);
+        int randomIndex = Random.Range(0, monsterPrefab.Length);
         Instantiate(monsterPrefab[randomIndex], Return_RandomPosition(), Quaternion.identity);
     }
 

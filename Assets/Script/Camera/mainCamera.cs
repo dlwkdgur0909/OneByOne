@@ -89,71 +89,68 @@ public class mainCamera : MonoBehaviour
 
     public void HaveFlash()
     {
-        if (isHaveFlash)
+        if (!isHaveFlash) return;
+        flashObject.transform.position = flashPos.transform.position;
+        flashObject.transform.rotation = flashPos.transform.rotation;
+        //불 껐다 켜기
+        if (Input.GetMouseButtonDown(1))
         {
-            flashObject.transform.position = flashPos.transform.position;
-            flashObject.transform.rotation = flashPos.transform.rotation;
-            //불 껐다 켜기
-            if (Input.GetMouseButtonDown(1))
-            {
-                isTurnOn = !isTurnOn;
-                flash.GetComponent<Light>().enabled = isTurnOn;
-            }
-            //손전등 버리기
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                Throw();
-                isHaveFlash = false;
-            }
+            isTurnOn = !isTurnOn;
+            flash.GetComponent<Light>().enabled = isTurnOn;
         }
-        else return;
+        //손전등 버리기
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Throw();
+            isHaveFlash = false;
+        }
     }
 
     public void HaveGun()
     {
-        if (isHaveGun)
-        {
-            Ammo();
-            gun.transform.position = gunPos.transform.position;
-            gun.transform.rotation = gunPos.transform.rotation;
+        if (!isHaveGun) return; //총을 들고있지 않으면 리턴
 
-            //재장전
-            if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo && Instance.currentState != CameraState.Tower)
-            {
-                StartCoroutine(ReLoad());
-            }
-            //총 발사
-            if (Input.GetMouseButtonDown(1) && isReloading == false)
-            {
-                //cannon일 때
-                if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) Cannon();
-                //CCTV를 보고있는 상태일 때 총소리 달라짐
-                else if (curAmmo > 0 && Instance.isOnCamera)
-                {
-                    --curAmmo;
-                    Fire();
-                    AudioManager.instance.cctvShoot.Play();
-                }
-                else if (curAmmo > 0)
-                {
-                    --curAmmo;
-                    Fire();
-                    gunFire.Play();
-                    AudioManager.instance.shoot.Play();
-                }
-                else return;
-            }
-            //CCTV를 보고있는 상태이면 bulletPos를 CCTV의 bulletPos로 이동시키기
-            if (MoveCamera.Instance.isOnCamera == true) curBulletPos.transform.position = CCTVbulletPos.transform.position;
-            else curBulletPos.transform.position = bulletPos.transform.position;
-            //총 버리기
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                Throw();
-                isHaveGun = false;
-            }
+        Ammo();
+        gun.transform.position = gunPos.transform.position;
+        gun.transform.rotation = gunPos.transform.rotation;
+
+        //재장전
+        if (Input.GetKeyDown(KeyCode.R) && curAmmo < maxAmmo)
+        {
+            StartCoroutine(ReLoad());
         }
-        else return;
+        else if (curAmmo <= 0) StartCoroutine(ReLoad()); ;
+
+        //총 발사
+        if (Input.GetMouseButtonDown(1) && isReloading == false)
+        {
+            //cannon일 때
+            if (Instance.currentState == CameraState.Tower && Shop.instance.isBuyCannon == true) Cannon();
+            //CCTV를 보고있는 상태일 때 총소리 달라짐
+            else if (curAmmo > 0 && Instance.isOnCamera)
+            {
+                --curAmmo;
+                Fire();
+                AudioManager.instance.cctvShoot.Play();
+            }
+            else if (curAmmo > 0)
+            {
+                --curAmmo;
+                Fire();
+                gunFire.Play();
+                AudioManager.instance.shoot.Play();
+            }
+            else return;
+        }
+        //CCTV를 보고있는 상태이면 bulletPos를 CCTV의 bulletPos로 이동시키기
+        if (MoveCamera.Instance.isOnCamera == true) curBulletPos.transform.position = CCTVbulletPos.transform.position;
+        else curBulletPos.transform.position = bulletPos.transform.position;
+        //총 버리기
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Throw();
+            isHaveGun = false;
+        }
     }
 
     private void UpdateRotate()
