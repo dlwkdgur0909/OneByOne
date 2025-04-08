@@ -63,6 +63,10 @@ public class Shop : MonoBehaviour
     void Update()
     {
         TotalGold();
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            totalGold += 100000;
+        }
     }
 
     public void AddGold(int goldValue)

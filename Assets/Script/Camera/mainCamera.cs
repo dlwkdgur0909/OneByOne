@@ -109,6 +109,7 @@ public class mainCamera : MonoBehaviour
     public void HaveGun()
     {
         if (!isHaveGun) return; //총을 들고있지 않으면 리턴
+        if (MoveCamera.Instance.isOnCamera) gunOBJ.SetActive(false);
 
         Ammo();
         gun.transform.position = gunPos.transform.position;
